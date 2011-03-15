@@ -8,7 +8,7 @@ WriteMakefile(
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Ogg/Theora/LibTheora.pm', # retrieve abstract from module
        AUTHOR         => 'Vigith Maurice <vigith@cpan.org>') : ()),
-    LIBS              => ['-logg', '-ltheora', '-ltheoraenc', '-ltheoradec', ],
+    LIBS              => ['-logg -ltheora -ltheoraenc -ltheoradec', ],
     DEFINE            => '', # e.g., '-DHAVE_SOMETHING'
     INC               => '-I/usr/lib/include -I/opt/local/include -I/usr/lib',
 );
