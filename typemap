@@ -1,0 +1,6 @@
+th_info *		T_PTR
+th_huff_code *		T_PTR
+th_img_plane *		T_PTR
+th_quant_info *		T_PTR
+th_quant_ranges *	T_PTR
+th_stripe_callback *	T_PTR
