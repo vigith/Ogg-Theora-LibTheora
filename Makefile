@@ -14,7 +14,7 @@
 #     AUTHOR => q[Vigith Maurice <vigith@cpan.org>]
 #     DEFINE => q[]
 #     INC => q[-I/usr/lib/include -I/opt/local/include -I/usr/lib]
-#     LIBS => [q[-logg], q[-ltheora], q[-ltheoraenc], q[-ltheoradec]]
+#     LIBS => [q[-logg -ltheora -ltheoraenc -ltheoradec]]
 #     NAME => q[Ogg::Theora::LibTheora]
 #     PREREQ_PM => { Ogg::LibOgg=>q[0] }
 #     VERSION_FROM => q[lib/Ogg/Theora/LibTheora.pm]
@@ -206,8 +206,8 @@ XSUBPPDIR = /opt/local/lib/perl5/5.8.9/ExtUtils
 XSUBPP = $(XSUBPPDIR)$(DFSEP)xsubpp
 XSUBPPRUN = $(PERLRUN) $(XSUBPP)
 XSPROTOARG = 
-XSUBPPDEPS = /opt/local/lib/perl5/5.8.9/ExtUtils/typemap $(XSUBPP)
-XSUBPPARGS = -typemap /opt/local/lib/perl5/5.8.9/ExtUtils/typemap
+XSUBPPDEPS = /opt/local/lib/perl5/5.8.9/ExtUtils/typemap typemap $(XSUBPP)
+XSUBPPARGS = -typemap /opt/local/lib/perl5/5.8.9/ExtUtils/typemap -typemap typemap
 XSUBPP_EXTRA_ARGS = 
 
 
@@ -283,8 +283,8 @@ MPOLLUTE =
 # Ogg::Theora::LibTheora might depend on some other libraries:
 # See ExtUtils::Liblist for details
 #
-EXTRALIBS = -logg
-LDLOADLIBS = -logg
+EXTRALIBS = -logg -ltheora -ltheoraenc -ltheoradec
+LDLOADLIBS = -logg -ltheora -ltheoraenc -ltheoradec
 BSLOADLIBS = 
 LD_RUN_PATH = /opt/local/lib
 

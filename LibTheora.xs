@@ -10,8 +10,11 @@
 #include <theora/theoraenc.h>
 #include <theora/theoradec.h>
 
+#include "const-c.inc"
 
-MODULE = Ogg::Theora::LibTheora		PACKAGE = Ogg::Theora::LibTheora	PREFIX = LibTheora_
+MODULE = Ogg::Theora::LibTheora		PACKAGE = Ogg::Theora::LibTheora	PREFIX = LibTheora_		
+
+INCLUDE: const-xs.inc
 
 PROTOTYPES: DISABLE
 

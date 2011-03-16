@@ -6,3 +6,4 @@ ppport.h
 README
 t/encoder.t
 lib/Ogg/Theora/LibTheora.pm
+

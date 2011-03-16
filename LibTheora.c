@@ -19,8 +19,9 @@
 #include <theora/theoraenc.h>
 #include <theora/theoradec.h>
 
+#include "const-c.inc"
 
-#line 24 "LibTheora.c"
+#line 25 "LibTheora.c"
 #ifndef PERL_UNUSED_VAR
 #  define PERL_UNUSED_VAR(var) if (0) var = var
 #endif
@@ -72,7 +73,444 @@ S_croak_xs_usage(pTHX_ const CV *const cv, const char *const params)
 #define newXSproto_portable(name, c_impl, file, proto) (PL_Sv=(SV*)newXS(name, c_impl, file), sv_setpv(PL_Sv, proto), (CV*)PL_Sv)
 #endif /* !defined(newXS_flags) */
 
-#line 76 "LibTheora.c"
+#line 77 "LibTheora.c"
+
+/* INCLUDE:  Including 'const-xs.inc' from 'LibTheora.xs' */
+
+
+XS(XS_Ogg__Theora__LibTheora_constant); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_constant)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "sv");
+    PERL_UNUSED_VAR(ax); /* -Wall */
+    SP -= items;
+    {
+#line 4 "./const-xs.inc"
+#ifdef dXSTARG
+	dXSTARG; /* Faster if we have it.  */
+#else
+	dTARGET;
+#endif
+	STRLEN		len;
+        int		type;
+	IV		iv;
+	/* NV		nv;	Uncomment this if you need to return NVs */
+	/* const char	*pv;	Uncomment this if you need to return PVs */
+#line 106 "LibTheora.c"
+	SV *	sv = ST(0);
+	const char *	s = SvPV(sv, len);
+#line 18 "./const-xs.inc"
+        /* Change this to constant(aTHX_ s, len, &iv, &nv);
+           if you need to return both NVs and IVs */
+	type = constant(aTHX_ s, len, &iv);
+      /* Return 1 or 2 items. First is error message, or undef if no error.
+           Second, if present, is found value */
+        switch (type) {
+        case PERL_constant_NOTFOUND:
+          sv =
+	    sv_2mortal(newSVpvf("%s is not a valid Ogg::Theora::LibTheora macro", s));
+          PUSHs(sv);
+          break;
+        case PERL_constant_NOTDEF:
+          sv = sv_2mortal(newSVpvf(
+	    "Your vendor has not defined Ogg::Theora::LibTheora macro %s, used",
+				   s));
+          PUSHs(sv);
+          break;
+        case PERL_constant_ISIV:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHi(iv);
+          break;
+	/* Uncomment this if you need to return NOs
+        case PERL_constant_ISNO:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHs(&PL_sv_no);
+          break; */
+	/* Uncomment this if you need to return NVs
+        case PERL_constant_ISNV:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHn(nv);
+          break; */
+	/* Uncomment this if you need to return PVs
+        case PERL_constant_ISPV:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHp(pv, strlen(pv));
+          break; */
+	/* Uncomment this if you need to return PVNs
+        case PERL_constant_ISPVN:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHp(pv, iv);
+          break; */
+	/* Uncomment this if you need to return SVs
+        case PERL_constant_ISSV:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHs(sv);
+          break; */
+	/* Uncomment this if you need to return UNDEFs
+        case PERL_constant_ISUNDEF:
+          break; */
+	/* Uncomment this if you need to return UVs
+        case PERL_constant_ISUV:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHu((UV)iv);
+          break; */
+	/* Uncomment this if you need to return YESs
+        case PERL_constant_ISYES:
+          EXTEND(SP, 1);
+          PUSHs(&PL_sv_undef);
+          PUSHs(&PL_sv_yes);
+          break; */
+        default:
+          sv = sv_2mortal(newSVpvf(
+	    "Unexpected return type %d while processing Ogg::Theora::LibTheora macro %s, used",
+               type, s));
+          PUSHs(sv);
+        }
+#line 183 "LibTheora.c"
+	PUTBACK;
+	return;
+    }
+}
+
+
+/* INCLUDE: Returning to 'LibTheora.xs' from 'const-xs.inc' */
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_info); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_info)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 47 "LibTheora.xs"
+    th_info *memory;
+#line 206 "LibTheora.c"
+	th_info *	RETVAL;
+	dXSTARG;
+#line 49 "LibTheora.xs"
+    New(0, memory, 1, th_info);
+    RETVAL = memory;
+#line 212 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_huff_code); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_huff_code)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 69 "LibTheora.xs"
+    th_huff_code *memory;
+#line 232 "LibTheora.c"
+	th_huff_code *	RETVAL;
+	dXSTARG;
+#line 71 "LibTheora.xs"
+    New(0, memory, 1, th_huff_code);
+    RETVAL = memory;
+#line 238 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_img_plane); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_img_plane)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 91 "LibTheora.xs"
+    th_img_plane *memory;
+#line 258 "LibTheora.c"
+	th_img_plane *	RETVAL;
+	dXSTARG;
+#line 93 "LibTheora.xs"
+    New(0, memory, 1, th_img_plane);
+    RETVAL = memory;
+#line 264 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_quant_info); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_quant_info)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 113 "LibTheora.xs"
+    th_quant_info *memory;
+#line 284 "LibTheora.c"
+	th_quant_info *	RETVAL;
+	dXSTARG;
+#line 115 "LibTheora.xs"
+    New(0, memory, 1, th_quant_info);
+    RETVAL = memory;
+#line 290 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_quant_ranges); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_quant_ranges)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 135 "LibTheora.xs"
+    th_quant_ranges *memory;
+#line 310 "LibTheora.c"
+	th_quant_ranges *	RETVAL;
+	dXSTARG;
+#line 137 "LibTheora.xs"
+    New(0, memory, 1, th_quant_ranges);
+    RETVAL = memory;
+#line 316 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_stripe_callback); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_stripe_callback)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 157 "LibTheora.xs"
+    th_stripe_callback *memory;
+#line 336 "LibTheora.c"
+	th_stripe_callback *	RETVAL;
+	dXSTARG;
+#line 159 "LibTheora.xs"
+    New(0, memory, 1, th_stripe_callback);
+    RETVAL = memory;
+#line 342 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_ycbcr_buffer); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_ycbcr_buffer)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 179 "LibTheora.xs"
+    th_ycbcr_buffer *memory;
+#line 362 "LibTheora.c"
+	th_ycbcr_buffer *	RETVAL;
+	dXSTARG;
+#line 181 "LibTheora.xs"
+    New(0, memory, 1, th_ycbcr_buffer);
+    RETVAL = memory;
+#line 368 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_make_th_comment); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_make_th_comment)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 201 "LibTheora.xs"
+    th_comment *memory;
+#line 388 "LibTheora.c"
+	th_comment *	RETVAL;
+	dXSTARG;
+#line 203 "LibTheora.xs"
+    New(0, memory, 1, th_comment);
+    RETVAL = memory;
+#line 394 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_version_number); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_version_number)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 229 "LibTheora.xs"
+    ogg_uint32_t version;
+#line 414 "LibTheora.c"
+	ogg_uint32_t	RETVAL;
+	dXSTARG;
+#line 231 "LibTheora.xs"
+    version = th_version_number();
+    RETVAL = version;
+#line 420 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_version_string); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_version_string)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 0)
+       croak_xs_usage(cv,  "");
+    {
+#line 251 "LibTheora.xs"
+    const char *version;
+#line 440 "LibTheora.c"
+	const char *	RETVAL;
+	dXSTARG;
+#line 253 "LibTheora.xs"
+    version = th_version_string();
+    RETVAL = version;
+#line 446 "LibTheora.c"
+	sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_packet_isheader); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_packet_isheader)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_op");
+    {
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(0)));
+	int	RETVAL;
+	dXSTARG;
+#line 275 "LibTheora.xs"
+    RETVAL = th_packet_isheader(_op);
+#line 469 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_comment_init); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_comment_init)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_tc");
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+#line 310 "LibTheora.xs"
+    th_comment_init(_tc);
+#line 490 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_info_init); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_info_init)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_info");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+#line 328 "LibTheora.xs"
+    th_info_init(_info);
+#line 510 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
 #ifdef __cplusplus
 extern "C"
 #endif
@@ -84,11 +522,30 @@ XS(boot_Ogg__Theora__LibTheora)
 #else
     dXSARGS;
 #endif
+#if (PERL_REVISION == 5 && PERL_VERSION < 9)
+    char* file = __FILE__;
+#else
+    const char* file = __FILE__;
+#endif
 
     PERL_UNUSED_VAR(cv); /* -W */
     PERL_UNUSED_VAR(items); /* -W */
     XS_VERSION_BOOTCHECK ;
 
+        newXS("Ogg::Theora::LibTheora::constant", XS_Ogg__Theora__LibTheora_constant, file);
+        newXS("Ogg::Theora::LibTheora::make_th_info", XS_Ogg__Theora__LibTheora_make_th_info, file);
+        newXS("Ogg::Theora::LibTheora::make_th_huff_code", XS_Ogg__Theora__LibTheora_make_th_huff_code, file);
+        newXS("Ogg::Theora::LibTheora::make_th_img_plane", XS_Ogg__Theora__LibTheora_make_th_img_plane, file);
+        newXS("Ogg::Theora::LibTheora::make_th_quant_info", XS_Ogg__Theora__LibTheora_make_th_quant_info, file);
+        newXS("Ogg::Theora::LibTheora::make_th_quant_ranges", XS_Ogg__Theora__LibTheora_make_th_quant_ranges, file);
+        newXS("Ogg::Theora::LibTheora::make_th_stripe_callback", XS_Ogg__Theora__LibTheora_make_th_stripe_callback, file);
+        newXS("Ogg::Theora::LibTheora::make_th_ycbcr_buffer", XS_Ogg__Theora__LibTheora_make_th_ycbcr_buffer, file);
+        newXS("Ogg::Theora::LibTheora::make_th_comment", XS_Ogg__Theora__LibTheora_make_th_comment, file);
+        newXS("Ogg::Theora::LibTheora::th_version_number", XS_Ogg__Theora__LibTheora_th_version_number, file);
+        newXS("Ogg::Theora::LibTheora::th_version_string", XS_Ogg__Theora__LibTheora_th_version_string, file);
+        newXS("Ogg::Theora::LibTheora::th_packet_isheader", XS_Ogg__Theora__LibTheora_th_packet_isheader, file);
+        newXS("Ogg::Theora::LibTheora::th_comment_init", XS_Ogg__Theora__LibTheora_th_comment_init, file);
+        newXS("Ogg::Theora::LibTheora::th_info_init", XS_Ogg__Theora__LibTheora_th_info_init, file);
 #if (PERL_REVISION == 5 && PERL_VERSION >= 9)
   if (PL_unitcheckav)
        call_list(PL_scopestack_ix, PL_unitcheckav);
