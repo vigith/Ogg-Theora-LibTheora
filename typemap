@@ -6,6 +6,7 @@ th_quant_ranges *	T_PTR
 th_stripe_callback *	T_PTR
 th_ycbcr_buffer *  	T_PTR
 th_comment *		T_PTR
+th_setup_info *		T_PTR
 
 ogg_uint32_t		T_IV
 ogg_packet *		T_PTR
