@@ -4,3 +4,10 @@ th_img_plane *		T_PTR
 th_quant_info *		T_PTR
 th_quant_ranges *	T_PTR
 th_stripe_callback *	T_PTR
+th_ycbcr_buffer *  	T_PTR
+th_comment *		T_PTR
+
+ogg_uint32_t		T_IV
+ogg_packet *		T_PTR
+
+const char *		T_PV
