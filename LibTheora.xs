@@ -338,4 +338,34 @@ L<http://www.theora.org/doc/libtheora-1.0/group__decfuncs.html>
 
 Decodes the header packets of a Theora stream. 
 
+-Input:
+  th_info,
+  th_comment,
+  th_setup_info, (initialized to NULL on the first call & returned value be passed on subsequent calls)
+  ogg_packet
+
+-Output:
+  0 first video data packet was encountered after all required header packets were parsed,
+  TH_EFAULT if one of _info, _tc, or _setup was NULL,
+  TH_EBADHEADER _op was NULL,
+  TH_EVERSION not decodable with current libtheoradec version,
+  TH_ENOTFORMAT not a Theora header
+
 =cut
+int
+LibTheora_th_decode_headerin(_info, _tc, _setup_info, _op)
+    th_info *		_info
+    th_comment *	_tc
+    int      		_setup_info
+    ogg_packet *  	_op
+  PREINIT:
+    int status;
+    th_setup_info *_setup;
+  CODE:
+    _setup = (th_setup_info *) _setup_info;
+    status = th_decode_headerin(_info, _tc, &_setup, _op);
+    fprintf(stderr, "%d ", (unsigned int)_setup);
+    fprintf(stderr, "%d\n", status);
+    RETVAL = (unsigned int)_setup;
+  OUTPUT:
+    RETVAL

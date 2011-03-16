@@ -48,9 +48,29 @@ ok($th_info != 0, "Make th_info");
 Ogg::Theora::LibTheora::th_info_init($th_info);
 ok(1, "th_info_init");
 
+diag(TH_EFAULT, "**", TH_EBADHEADER, "**", TH_EVERSION, "**", TH_ENOTFORMAT, "***********");
 
 ## Decode Header ##
+my $th_setup_info = 0;
+diag(Ogg::Theora::LibTheora::th_packet_isheader($op), "+++");
 
-
+for ((0..4)) {
+readPacket();
+diag(Ogg::Theora::LibTheora::th_decode_headerin($th_info, $th_comment, $th_setup_info, $op), "-----");
+}
 
 close IN;
+
+
+## ++++++++++++ ##
+## SUB ROUTINES ##
+## ++++++++++++ ##
+sub readPacket {
+  while (ogg_stream_packetout($os, $op) == 0) {
+    if (not defined ogg_read_page(*IN, $oy, $og)) {
+      print "EOF\n";
+      return undef
+    }
+    ogg_stream_pagein($os, $og);
+  }
+}
