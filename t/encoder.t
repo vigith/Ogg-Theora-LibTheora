@@ -1,8 +1,8 @@
 
-use Ogg::LibOgg ':all';
 use strict;
+use Ogg::LibOgg ':all';
 
-use Test::More tests => 8;
+use Test::More tests => 16;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -48,16 +48,64 @@ ok($th_info != 0, "Make th_info");
 Ogg::Theora::LibTheora::th_info_init($th_info);
 ok(1, "th_info_init");
 
-diag(TH_EFAULT, "**", TH_EBADHEADER, "**", TH_EVERSION, "**", TH_ENOTFORMAT, "***********");
 
-## Decode Header ##
-my $th_setup_info = 0;
-diag(Ogg::Theora::LibTheora::th_packet_isheader($op), "+++");
+###############################################################################################
+# (1) Parse the header packets by repeatedly calling th_decode_headerin().      	      #
+# (2) Allocate a th_dec_ctx handle with th_decode_alloc().		      		      #
+# (3) Call th_setup_free() to free any memory used for codec setup information. 	      #
+# (4) Perform any additional decoder configuration with th_decode_ctl().	    	      #
+# (5) For each video data packet:						    	      #
+#     (5.a) Submit the packet to the decoder via th_decode_packetin().	    		      #
+#     (5.b) Retrieve the uncompressed video data via th_decode_ycbcr_out().	    	      #
+# (6) Call th_decode_free() to release all decoder memory. 		      		      #
+###############################################################################################
 
-for ((0..4)) {
-readPacket();
-diag(Ogg::Theora::LibTheora::th_decode_headerin($th_info, $th_comment, $th_setup_info, $op), "-----");
-}
+
+## (1) ##
+
+## Decode Header and parse the stream till the first VIDEO packet gets in
+my $th_setup_info_addr = 0;
+my $ret = undef;
+ok(Ogg::Theora::LibTheora::th_packet_isheader($op) == 0, "th_packet_isheader");
+do {
+  ($ret, $th_setup_info_addr) = Ogg::Theora::LibTheora::th_decode_headerin($th_info, $th_comment, $th_setup_info_addr, $op);
+  ## $ret > 0 indicates that a Theora header was successfully processed. 
+  readPacket() if $ret != 0;
+} while ($ret != 0); ## ret == 0 means, first video data packet was encountered
+
+ok(1, "(1) Parse the header packets by repeatedly calling th_decode_headerin().");
+
+## (2) ##
+
+## th_decode_alloc
+my $th_dec_ctx = Ogg::Theora::LibTheora::th_decode_alloc($th_info, $th_setup_info_addr);
+ok($th_dec_ctx != 0, "(2) Allocate a th_dec_ctx handle with th_decode_alloc().");
+
+## (3) ##
+
+## th_setup_free
+Ogg::Theora::LibTheora::th_setup_free($th_setup_info_addr);
+ok(1, "th_setup_free");
+
+my $h_info = Ogg::Theora::LibTheora::get_th_info($th_info);
+ok(ref $h_info eq 'HASH', "get_th_info");
+
+## Make th_ycbcr_buffer
+my $th_ycbcr_buffer = Ogg::Theora::LibTheora::make_th_ycbcr_buffer();
+ok($th_ycbcr_buffer != 0, "Make th_ycbcr_buffer");
+
+## th_decode_packetin
+my $gpos = 0;
+$ret = undef;
+($ret, $gpos) = Ogg::Theora::LibTheora::th_decode_packetin($th_dec_ctx, $op, $gpos);
+ok($ret == 0, "th_decode_packetin");
+
+## th_decode_ycbcr_out
+ok(Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer) == 0, "th_decode_ycbcr_out");
+
+
+
+## Clean Ups ##
 
 close IN;
 
@@ -65,6 +113,7 @@ close IN;
 ## ++++++++++++ ##
 ## SUB ROUTINES ##
 ## ++++++++++++ ##
+
 sub readPacket {
   while (ogg_stream_packetout($os, $op) == 0) {
     if (not defined ogg_read_page(*IN, $oy, $og)) {

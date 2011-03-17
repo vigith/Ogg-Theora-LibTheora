@@ -352,20 +352,160 @@ Decodes the header packets of a Theora stream.
   TH_ENOTFORMAT not a Theora header
 
 =cut
-int
-LibTheora_th_decode_headerin(_info, _tc, _setup_info, _op)
+void
+LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     th_info *		_info
     th_comment *	_tc
-    int      		_setup_info
+    int      		_setup_addr
     ogg_packet *  	_op
   PREINIT:
     int status;
     th_setup_info *_setup;
-  CODE:
-    _setup = (th_setup_info *) _setup_info;
+  PPCODE:
+    _setup = (th_setup_info *) _setup_addr;
     status = th_decode_headerin(_info, _tc, &_setup, _op);
-    fprintf(stderr, "%d ", (unsigned int)_setup);
-    fprintf(stderr, "%d\n", status);
-    RETVAL = (unsigned int)_setup;
+    XPUSHs(sv_2mortal(newSViv(status)));
+    XPUSHs(sv_2mortal(newSViv((unsigned int) _setup)));
+
+
+=head1 th_decode_alloc
+
+Allocates a decoder instance. 
+
+-Input:
+  th_info,
+  th_setup_info
+
+-Output:
+  th_dec_ctx
+
+=cut
+th_dec_ctx *
+LibTheora_th_decode_alloc(_info, _setup)
+    th_info *		_info
+    int	    		_setup
+  CODE:
+    RETVAL = th_decode_alloc(_info, (th_setup_info *) _setup);
   OUTPUT:
     RETVAL
+    
+
+=head th_setup_free
+
+Releases all storage used for the decoder setup information.
+
+-Input:
+  th_setup_info
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_th_setup_free(_setup)
+    int		_setup
+  CODE:
+    th_setup_free((th_setup_info *) _setup);
+
+
+=head1 th_decode_packetin
+
+Submits a packet containing encoded video data to the decoder. 
+
+-Input:
+  th_dec_ctx,
+  ogg_packet,
+  ogg_int64_t gran_pos, returns the granule position of the decoded packet
+
+-Output:
+  0 success,
+  TH_DUPFRAME packet represented a dropped (0-byte) frame,
+  TH_EFAULT _dec or _op was NULL,
+  TH_EBADPACKET _op does not contain encoded video data,
+  TH_EIMPL video data uses bitstream features which this library does not support.
+
+=cut
+void
+LibTheora_th_decode_packetin(_dec, _op, _granpos)
+    th_dec_ctx *	_dec
+    ogg_packet *	_op
+    unsigned int	_granpos
+  PREINIT:
+    int status;
+  PPCODE:
+    status = th_decode_packetin(_dec, _op, (ogg_int64_t *) _granpos);
+    XPUSHs(sv_2mortal(newSViv(status)));
+    XPUSHs(sv_2mortal(newSViv((unsigned int) _granpos)));
+ 
+
+=head1 th_decode_ycbcr_out
+
+Outputs the next available frame of decoded Y'CbCr data. 
+
+-Input:
+  th_dec_ctx,
+  th_ycbcr_buffer (video buffer structure to fill in)
+
+-Output:
+  0 Success
+
+=cut
+int
+LibTheora_th_decode_ycbcr_out(_dec, _ycbcr)
+    th_dec_ctx *	_dec
+    th_ycbcr_buffer *	_ycbcr
+  CODE:
+    RETVAL = th_decode_ycbcr_out(_dec, *_ycbcr);
+  OUTPUT:
+    RETVAL
+
+
+
+=head1 Miscellaneous Functions 
+
+These functions are not found in libtheora*, but is written by the XS author
+to simplify few tasks.
+
+=cut
+
+=head1 get_th_info
+
+Returns a HashRef with th_info struct values.
+
+-Input:
+  th_info
+
+-Output:
+  Hash
+
+=cut
+HV *
+LibTheora_get_th_info(_info)
+    th_info *		_info
+  PREINIT:
+    HV * hash;
+  CODE:
+    hash = newHV();
+    hv_store(hash, "frame_width", strlen("frame_width"), newSVnv(_info->frame_width), 0);
+    hv_store(hash, "frame_height", strlen("frame_height"), newSVnv(_info->frame_height), 0);
+    hv_store(hash, "pic_width", strlen("pic_width"), newSVnv(_info->pic_width), 0);
+    hv_store(hash, "pic_height", strlen("pic_height"), newSVnv(_info->pic_height), 0);
+    hv_store(hash, "pic_x", strlen("pic_x"), newSVnv(_info->pic_x), 0);
+    hv_store(hash, "pic_y", strlen("pic_y"), newSVnv(_info->pic_y), 0);
+    hv_store(hash, "colorspace", strlen("colorspace"), newSVnv(_info->colorspace), 0);
+    hv_store(hash, "pixel_fmt", strlen("pixel_fmt"), newSVnv(_info->pixel_fmt), 0);
+    hv_store(hash, "target_bitrate", strlen("target_bitrate"), newSVnv(_info->target_bitrate), 0);
+    hv_store(hash, "quality", strlen("quality"), newSVnv(_info->quality), 0);
+    hv_store(hash, "version_major", strlen("version_major"), newSVnv(_info->version_major), 0);
+    hv_store(hash, "version_minor", strlen("version_minor"), newSVnv(_info->version_minor), 0);
+    hv_store(hash, "version_subminor", strlen("version_subminor"), newSVnv(_info->version_subminor), 0);
+    hv_store(hash, "fps_numerator", strlen("fps_numerator"), newSVnv(_info->fps_numerator), 0);
+    hv_store(hash, "fps_denominator", strlen("fps_denominator"), newSVnv(_info->fps_denominator), 0);
+    hv_store(hash, "aspect_numerator", strlen("aspect_numerator"), newSVnv(_info->aspect_numerator), 0);
+    hv_store(hash, "aspect_denominator", strlen("aspect_denominator"), newSVnv(_info->aspect_denominator), 0);
+    hv_store(hash, "keyframe_granule_shift", strlen("keyframe_granule_shift"), newSVnv(_info->keyframe_granule_shift), 0);
+    
+    RETVAL = hash;
+  OUTPUT:
+    RETVAL
+
