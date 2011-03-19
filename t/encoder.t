@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 16;
+use Test::More tests => 18;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -103,9 +103,22 @@ ok($ret == 0, "th_decode_packetin");
 ## th_decode_ycbcr_out
 ok(Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer) == 0, "th_decode_ycbcr_out");
 
+my $rgb_buf = Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer($th_ycbcr_buffer);
+## testing inside testing :-)
+## i will read that file in Python and whether the pic is correct
+# open OUT, ">", "/tmp/rgb";
+# binmode OUT;
+# print OUT $rgb_buf;
+# close OUT;
+ok(length($rgb_buf) > 0, "ycbcr_to_rgb_buffer");
+
 
 
 ## Clean Ups ##
+
+## th_decode_free
+Ogg::Theora::LibTheora::th_decode_free($th_dec_ctx);
+ok(1, "th_decode_free");
 
 close IN;
 

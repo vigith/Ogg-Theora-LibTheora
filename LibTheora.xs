@@ -460,6 +460,23 @@ LibTheora_th_decode_ycbcr_out(_dec, _ycbcr)
     RETVAL
 
 
+=head1 th_decode_free
+
+Frees an allocated decoder instance. 
+
+-Input:
+  th_dec_ctx
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_th_decode_free(_dec)
+    th_dec_ctx *	_dec
+  CODE:
+    th_decode_free(_dec);
+
 
 =head1 Miscellaneous Functions 
 
@@ -476,7 +493,7 @@ Returns a HashRef with th_info struct values.
   th_info
 
 -Output:
-  Hash
+  HashRef
 
 =cut
 HV *
@@ -509,3 +526,75 @@ LibTheora_get_th_info(_info)
   OUTPUT:
     RETVAL
 
+
+=head1 ycbcr_to_rgb_buffer
+
+reads the data from the ycbcr buffer and converts to its equivalent
+rgb buffer.
+
+-Input:
+   th_ycbcr_buffer
+
+-Output:
+  RGB string
+
+=cut
+SV *
+LibTheora_ycbcr_to_rgb_buffer(_ycbcr)
+    th_ycbcr_buffer *	_ycbcr;
+  PREINIT:
+    th_ycbcr_buffer buffer;
+    char *rgb;
+    long size, size1, size2, size3;
+    int i, i2, j, j2;
+    long pos, pos1, pos2;
+    int Y, U, V;
+    int R, G, B;
+  CODE:
+    memcpy(buffer,_ycbcr, sizeof(buffer));
+    size1 = buffer[0].width * buffer[0].height;
+    size2 = buffer[1].width * buffer[1].height;
+    size3 = buffer[2].width * buffer[2].height;
+    size = size1*3;
+    // this way, i don't have to worry about free'ing
+    RETVAL = newSV(size); // returns a pointer of type (SV *)
+    SvPOK_on(RETVAL); 
+    // SvPV_nolen returns the pointer to array in RETVAL
+    rgb = (char *)SvPV_nolen(RETVAL); 
+    // rgb == SvPV(RETVAL, size), i was curious :-)
+    for(i=0;i<buffer[0].height;i++) {
+      for(j=0;j<buffer[0].width;j++) {
+        i2 = (int) i/2;
+        j2 = (int) j/2;
+        pos = i*buffer[0].stride +j;
+        pos1 = i2*buffer[1].stride + j2;
+        pos2 = i2*buffer[2].stride + j2;
+        Y = (int) buffer[0].data[pos];
+        U = (int) buffer[1].data[pos1];
+        V = (int) buffer[2].data[pos2];
+        Y = Y - 128 - 16;
+        U = U - 128;
+        V = V - 128;
+
+        R = Y + 1.140*V;
+        G = Y - 0.395*U - 0.581*V;
+        B = Y + 2.032*U;
+        R += 128;
+        G += 128;
+        B += 128;
+        if (R > 255) R = 255;
+        if (R < 0) R = 0;
+        if (G > 255) G = 255;
+        if (G < 0) G = 0;
+        if (B > 255) B = 255;
+        if (B < 0) B = 0;
+        pos2 = (i*buffer[0].width+j)*3;
+
+        rgb[pos2] = R; 
+        rgb[pos2+1] = G; 
+        rgb[pos2+2] = B; 
+      }
+    }  	
+    SvCUR_set(RETVAL, size);
+  OUTPUT:
+    RETVAL
