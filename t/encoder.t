@@ -14,7 +14,7 @@ my $og = make_ogg_page();
 my $os = make_ogg_stream_state();
 my $oy = make_ogg_sync_state();
 
-my $filename = "t/video_6_2m.ogg";
+my $filename = "t/theora.ogg";
 open IN, $filename or die "can't open [$filename] : $!";
 
 ## Ogg Sync Init

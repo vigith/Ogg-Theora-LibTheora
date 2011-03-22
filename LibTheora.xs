@@ -404,6 +404,90 @@ LibTheora_th_info_clear(_info)
     th_info_clear(_info);
 
 
+=head1 th_comment_add
+
+Add a comment to an initialized th_comment structure. 
+
+-Input:
+  th_comment,
+  char * (null-terminated UTF-8 string containing the comment in "TAG=the value" form).
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_th_comment_add(_tc, _comment)
+    th_comment *	 _tc
+    char *     		 _comment
+  CODE:
+    int i;
+    th_comment_add(_tc, _comment);
+
+
+=head th_comment_add_tag
+
+Add a comment to an initialized th_comment structure. 
+
+-Input:
+  th_comment,
+  char * (null-terminated string containing the tag associated with the comment),
+  char * (corresponding value as a null-terminated string).
+
+=cut
+void
+LibTheora_th_comment_add_tag(_tc, _tag, _val)
+    th_comment *	_tc
+    char *     		_tag
+    char *		_val
+  CODE:
+    th_comment_add_tag(_tc, _tag, _val);
+
+=head1 th_comment_query_count
+
+Look up the number of instances of a tag.
+
+-Input:
+  th_comment,
+  char * (tag to look up).
+
+-Output:
+  int (number on instances of this particular tag)
+
+=cut
+int
+LibTheora_th_comment_query_count(_tc, _tag)
+    th_comment *	_tc
+    char *     		_tag
+  CODE:
+    RETVAL = th_comment_query_count(_tc, _tag);
+  OUTPUT:
+    RETVAL
+
+=head1 th_comment_query
+
+Look up a comment value by its tag. 
+
+-Input:
+  th_comment,
+  char * (tag to look-up)
+  int (instance of the tag, it starts from 0)
+
+-Output:
+  char * if matched pointer to the queried tag's value,
+  NULL if no matching tag is found
+
+=cut
+char *
+LibTheora_th_comment_query(_tc, _tag, _count)
+    th_comment *	_tc
+    char *     		_tag
+    int	 		_count
+  CODE:
+    RETVAL = th_comment_query(_tc, _tag, _count);
+  OUTPUT:
+    RETVAL
+
 
 =head1 Functions (For Decoding)
 
@@ -703,3 +787,26 @@ LibTheora_ycbcr_to_rgb_buffer(_ycbcr)
     SvCUR_set(RETVAL, size);
   OUTPUT:
     RETVAL
+
+
+=head1 get_th_comment
+
+return an array of comments
+
+-Input:
+  th_comment
+
+-Output:
+  array of comments
+
+=cut
+void
+LibTheora_get_th_comment(_tc)
+    th_comment *	_tc
+  PREINIT:
+    int i = 0;
+  PPCODE:
+    EXTEND(SP, _tc->comments);
+    for(i=0; i < _tc->comments; i++) {
+      PUSHs((SV *)sv_2mortal(newSVpv(_tc->user_comments[i], strlen(_tc->user_comments[i]))));
+    }
