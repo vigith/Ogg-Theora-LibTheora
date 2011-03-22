@@ -11,5 +11,5 @@ th_dec_ctx *  		T_PTR
 
 ogg_uint32_t		T_IV
 ogg_packet *		T_PTR
+ogg_int64_t		T_NV
 
-const char *		T_PV
