@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 18;
+use Test::More tests => 23;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -67,6 +67,8 @@ ok(1, "th_info_init");
 my $th_setup_info_addr = 0;
 my $ret = undef;
 ok(Ogg::Theora::LibTheora::th_packet_isheader($op) == 0, "th_packet_isheader");
+ok(Ogg::Theora::LibTheora::th_packet_iskeyframe($op) != -1, "th_packet_iskeyframe");
+
 do {
   ($ret, $th_setup_info_addr) = Ogg::Theora::LibTheora::th_decode_headerin($th_info, $th_comment, $th_setup_info_addr, $op);
   ## $ret > 0 indicates that a Theora header was successfully processed. 
@@ -94,11 +96,17 @@ ok(ref $h_info eq 'HASH', "get_th_info");
 my $th_ycbcr_buffer = Ogg::Theora::LibTheora::make_th_ycbcr_buffer();
 ok($th_ycbcr_buffer != 0, "Make th_ycbcr_buffer");
 
+## (4) ##
+## None
+
+## (5) ##
+
 ## th_decode_packetin
 my $gpos = 0;
 $ret = undef;
 ($ret, $gpos) = Ogg::Theora::LibTheora::th_decode_packetin($th_dec_ctx, $op, $gpos);
 ok($ret == 0, "th_decode_packetin");
+ok($gpos > 0, "granulepos");
 
 ## th_decode_ycbcr_out
 ok(Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer) == 0, "th_decode_ycbcr_out");
@@ -112,13 +120,21 @@ my $rgb_buf = Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer($th_ycbcr_buffer);
 # close OUT;
 ok(length($rgb_buf) > 0, "ycbcr_to_rgb_buffer");
 
+ok(Ogg::Theora::LibTheora::th_granule_frame($th_dec_ctx, $gpos) == 0 , "th_granule_frame");
+
+ok(Ogg::Theora::LibTheora::th_granule_time($th_dec_ctx, $gpos), "th_granule_time");
 
 
 ## Clean Ups ##
 
+## (6) ##
+
 ## th_decode_free
 Ogg::Theora::LibTheora::th_decode_free($th_dec_ctx);
 ok(1, "th_decode_free");
+
+Ogg::Theora::LibTheora::th_info_clear($th_info);
+ok(1, "th_info_clear");
 
 close IN;
 
@@ -130,7 +146,6 @@ close IN;
 sub readPacket {
   while (ogg_stream_packetout($os, $op) == 0) {
     if (not defined ogg_read_page(*IN, $oy, $og)) {
-      print "EOF\n";
       return undef
     }
     ogg_stream_pagein($os, $og);

@@ -277,15 +277,73 @@ LibTheora_th_packet_isheader(_op)
     RETVAL
 
 
-=head1 TODO in this section
+=head1 th_granule_frame
 
-th_granule_frame
-  
-th_granule_time
+Converts a granule position to an absolute frame index, starting at 0. 
 
-th_packet_iskeyframe
+-Input:
+  void * _encdec (previously allocated th_enc_ctx or th_dec_ctx handle),
+  ogg_int64_t _granpos (granule position to convert).
+
+-Output:
+  absolute frame index corresponding to _granpos,
+  -1 on error.
 
 =cut
+int
+LibTheora_th_granule_frame(_encdec, _granpos)
+    void *	   _encdec
+    ogg_int64_t	   _granpos
+  CODE:
+    RETVAL = th_granule_frame(_encdec, _granpos);
+  OUTPUT:
+    RETVAL
+
+
+=head1 th_granule_time
+
+Converts a granule position to an absolute time in seconds. 
+
+-Input:
+  void * _encdec (previously allocated th_enc_ctx or th_dec_ctx handle),
+  ogg_int64_t _granpos (granule position to convert).
+
+-Output:
+  absolute time in seconds corresponding to _granpos,
+  -1 on error.
+
+=cut
+double
+LibTheora_th_granule_time(_encdec, _granpos)
+    void *	   _encdec
+    ogg_int64_t	   _granpos
+  CODE:
+    RETVAL = th_granule_time(_encdec, _granpos);
+  OUTPUT:
+    RETVAL
+
+
+=head th_packet_iskeyframe
+
+Determines whether a theora packet is a key frame or not. 
+
+-Input:
+  _op 	An ogg_packet containing encoded Theora data. 
+
+-Output:
+   1 packet is a key frame,
+   0 packet is a delta frame,
+  -1 packet is not a video data packet. 
+
+=cut
+int
+LibTheora_th_packet_iskeyframe(_op)
+    ogg_packet *	_op
+  CODE:
+    RETVAL = th_packet_iskeyframe(_op);
+  OUTPUT:
+    RETVAL
+
 
 
 =head1 Functions (Manipulating Header Data)
@@ -326,6 +384,25 @@ LibTheora_th_info_init(_info)
     th_info *		_info
   CODE:
     th_info_init(_info);
+
+
+=head1 th_info_clear
+
+Clears a th_info structure. 
+
+-Input:
+  th_info
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_th_info_clear(_info)
+    th_info *		_info
+  CODE:
+    th_info_clear(_info);
+
 
 
 =head1 Functions (For Decoding)
@@ -433,7 +510,7 @@ LibTheora_th_decode_packetin(_dec, _op, _granpos)
   PREINIT:
     int status;
   PPCODE:
-    status = th_decode_packetin(_dec, _op, (ogg_int64_t *) _granpos);
+    status = th_decode_packetin(_dec, _op, (ogg_int64_t *) &_granpos);
     XPUSHs(sv_2mortal(newSViv(status)));
     XPUSHs(sv_2mortal(newSViv((unsigned int) _granpos)));
  
@@ -476,6 +553,32 @@ LibTheora_th_decode_free(_dec)
     th_dec_ctx *	_dec
   CODE:
     th_decode_free(_dec);
+
+
+=head1 th_decode_ctl
+
+Decoder control function. (i haven't tested this)
+
+-Input:
+  th_dec_ctx,
+  int _req (control code to process),
+  void * _buf (parameters for this control code),
+  size_t _buf_sz (size of the parameter buffer)
+
+-Output:
+  int (not documented)
+
+=cut
+int
+LibTheora_th_decode_ctl(_dec, _req, _buf, _buf_sz)
+    th_dec_ctx *	_dec
+    int	       		_req
+    void *		_buf
+    size_t		_buf_sz
+  CODE:
+    RETVAL = th_decode_ctl(_dec, _req, _buf, _buf_sz);
+  OUTPUT:
+    RETVAL
 
 
 =head1 Miscellaneous Functions 
@@ -530,7 +633,9 @@ LibTheora_get_th_info(_info)
 =head1 ycbcr_to_rgb_buffer
 
 reads the data from the ycbcr buffer and converts to its equivalent
-rgb buffer.
+rgb buffer. (this is NOT an optimized code, there will be better ycbcr
+to rgb convertors, some intel gpu processors have mnemonic that does
+the conversion)
 
 -Input:
    th_ycbcr_buffer
