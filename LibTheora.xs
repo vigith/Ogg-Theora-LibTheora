@@ -323,7 +323,7 @@ LibTheora_th_granule_time(_encdec, _granpos)
     RETVAL
 
 
-=head th_packet_iskeyframe
+=head1 th_packet_iskeyframe
 
 Determines whether a theora packet is a key frame or not. 
 
@@ -425,7 +425,7 @@ LibTheora_th_comment_add(_tc, _comment)
     th_comment_add(_tc, _comment);
 
 
-=head th_comment_add_tag
+=head1 th_comment_add_tag
 
 Add a comment to an initialized th_comment structure. 
 
@@ -551,7 +551,7 @@ LibTheora_th_decode_alloc(_info, _setup)
     RETVAL
     
 
-=head th_setup_free
+=head1 th_setup_free
 
 Releases all storage used for the decoder setup information.
 
@@ -665,6 +665,59 @@ LibTheora_th_decode_ctl(_dec, _req, _buf, _buf_sz)
     RETVAL
 
 
+
+=head1 Function (for Encoding)
+
+L<http://www.theora.org/doc/libtheora-1.0/group__encfuncs.html>
+
+=cut
+
+
+=head1 th_encode_alloc
+
+Allocates an encoder instance.
+
+-Input:
+  th_info.
+
+-Output:
+  th_enc_ctx handle,
+  NULL (if the encoding parameters were invalid).
+
+=cut
+th_enc_ctx *
+LibTheora_th_encode_alloc(_info)
+    th_info *		_info
+  CODE:
+    RETVAL = th_encode_alloc(_info);
+  OUTPUT:
+    RETVAL
+
+
+=head1 th_encode_flushheader
+
+-Input:
+  th_enc_ctx,
+  th_comment,
+  ogg_packet.
+
+-Output:
+  > 1 (indicates that a header packet was successfully produced),
+  0 (no packet was produced, and no more header packets remain),
+  TH_EFAULT (_enc, _comments, or _op was NULL).
+
+=cut
+int
+LibTheora_th_encode_flushheader(_enc, _comments, _op)
+    th_enc_ctx *	_enc
+    th_comment *	_comments
+    ogg_packet *	_op
+  CODE:
+    RETVAL = th_encode_flushheader(_enc, _comments, _op);
+  OUTPUT:
+    RETVAL
+
+
 =head1 Miscellaneous Functions 
 
 These functions are not found in libtheora*, but is written by the XS author
@@ -690,6 +743,7 @@ LibTheora_get_th_info(_info)
     HV * hash;
   CODE:
     hash = newHV();
+    sv_2mortal((SV *)hash);	/* convert the HASH to a mortal */
     hv_store(hash, "frame_width", strlen("frame_width"), newSVnv(_info->frame_width), 0);
     hv_store(hash, "frame_height", strlen("frame_height"), newSVnv(_info->frame_height), 0);
     hv_store(hash, "pic_width", strlen("pic_width"), newSVnv(_info->pic_width), 0);
@@ -810,3 +864,128 @@ LibTheora_get_th_comment(_tc)
     for(i=0; i < _tc->comments; i++) {
       PUSHs((SV *)sv_2mortal(newSVpv(_tc->user_comments[i], strlen(_tc->user_comments[i]))));
     }
+
+
+=head1 set_th_info
+
+sets the th_info structure to default values unless specified in hash. frame_width and frame_height
+is mandatory.
+
+-Input:
+  Hash of elements
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_set_th_info(_info, hash)
+    th_info *		 _info
+    HV *    		 hash
+  PREINIT:
+    char * key;
+    I32 klen;
+    SV *val;
+    int flag = 0;
+
+    int frame_width  = 0;
+    int frame_height = 0;
+    int pic_width    = 0;
+    int pic_height   = 0;
+    int pic_x	     = 0;
+    int pic_y	     = 0;
+    int colorspace   = TH_CS_ITU_REC_470M;
+    int pixel_fmt    = TH_PF_420;
+    int quality	     = 0;
+    int keyframe_granule_shift = 6;
+    int target_bitrate	       = 0;
+    int aspect_denominator     = 1;
+    int aspect_numerator       = 1;
+    int fps_numerator	       = 25000;
+    int fps_denominator	       = 1000;
+  CODE:
+    /* get the values from the hash and override the defaults */
+    (void)hv_iterinit(hash);
+    while ((val = hv_iternextsv(hash, (char **) &key, &klen))) {
+      if (strEQ(key, "frame_width")) {
+        frame_width = SvIV(val);
+	flag++;
+	continue;
+      }
+      if (strEQ(key, "frame_height")) {
+        frame_height = SvIV(val);
+	flag++;
+	continue;
+      }
+      if (strEQ(key, "pic_width")) {
+        pic_width = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_height")) {
+        pic_height = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_x")) {
+        pic_x = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_y")) {
+        pic_y = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "colorspace")) {
+        colorspace = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pixel_fmt")) {
+        pixel_fmt = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "target_bitrate")) {
+        target_bitrate = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "aspect_denominator")) {
+        aspect_denominator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "aspect_numerator")) {
+        aspect_numerator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "fps_numerator")) {
+        fps_numerator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "fps_denominator")) {
+        fps_denominator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "quality")) {
+        quality = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "keyframe_granule_shift")) {
+        keyframe_granule_shift = SvIV(val);
+	continue;
+      }
+    }
+
+    if(flag != 2)
+      Perl_croak(aTHX_ "please give 'frame_width' and 'frame_height'");
+
+    _info->frame_width  = frame_width;
+    _info->frame_height = frame_height;
+    _info->pic_width  = (pic_width == 0  ? frame_width  : pic_width);
+    _info->pic_height = (pic_height == 0 ? frame_height : pic_height);
+    _info->pic_x = pic_x;
+    _info->pic_y = pic_y;
+    _info->colorspace = colorspace;
+    _info->pixel_fmt  = pixel_fmt;
+    _info->target_bitrate = target_bitrate;
+    _info->aspect_denominator = aspect_denominator;
+    _info->aspect_numerator   = aspect_numerator;
+    _info->fps_numerator   = fps_numerator;
+    _info->fps_denominator = fps_denominator;
+    _info->quality = quality;
+    _info->keyframe_granule_shift = keyframe_granule_shift;
