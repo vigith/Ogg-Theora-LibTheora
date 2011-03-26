@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 21;
+use Test::More tests => 22;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora')
 };
@@ -92,7 +92,7 @@ ok($th_comment != 0, "th_comment");
 
 ## th_comment_init
 Ogg::Theora::LibTheora::th_comment_init($th_comment);
-ok(1, "th_comment_init");
+ok(1, "th_comment_init"); 
 
 Ogg::Theora::LibTheora::th_comment_add($th_comment, "myname=vigith maurice");
 my @arr = Ogg::Theora::LibTheora::get_th_comment($th_comment);
@@ -109,6 +109,9 @@ ok($count == 1, 'th_comment_query_count');
 ok(Ogg::Theora::LibTheora::th_comment_query($th_comment, "fname", 0) eq 'vigith', "th_comment_query");
 is(Ogg::Theora::LibTheora::th_comment_query($th_comment, "fname", 1), undef, "th_comment_query");
 
+Ogg::Theora::LibTheora::set_th_info($th_info, {'frame_width' => 300, 'frame_height' => 500});
+my $h_info = Ogg::Theora::LibTheora::get_th_info($th_info);
+ok($h_info->{frame_height} == 500 && $h_info->{frame_width} == 300, 'set_th_info');
 
 ## is_header
 ok(Ogg::Theora::LibTheora::th_packet_isheader($op) == 0, "th_packet_isheader");
