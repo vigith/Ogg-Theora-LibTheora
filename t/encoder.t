@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 8;
+use Test::More tests => 10;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -88,9 +88,19 @@ save_page();
 ok(1, 'save page');
 
 
+foreach ((1..5)) {
+  add_image("t/aaa.raw");
+  add_image("t/bbb.raw");
+  add_image("t/ccc.raw");
+}
+ok(1, 'th_encode_packetout');
+
+ogg_stream_flush($os, $og);
 
 
 ## CLEANUPS ##
+
+is(Ogg::Theora::LibTheora::th_encode_free($th_enc_ctx), undef, 'th_encode_free');
 
 close OUT;
 
@@ -109,5 +119,28 @@ sub save_page {
     ## writes the header and body 
     print OUT $h_page->{header};
     print OUT $h_page->{body};
+  } else {
+    # pass, we don't have to worry about insufficient data
   }
+}
+
+sub add_image {
+  my ($name) = shift;
+  open IN, "$name";
+  binmode IN;
+  local $/ = undef;
+  my $str = <IN>;
+  close IN;
+
+  Ogg::Theora::LibTheora::rgb_th_encode_ycbcr_in($th_enc_ctx, $str, $w, $h) == 0 or diag ("Error th_encode_ycbcr_in");
+
+  my $n;
+  do {
+    $n = Ogg::Theora::LibTheora::th_encode_packetout($th_enc_ctx, 0, $op);
+    $n == TH_EFAULT and diag ("($n) TH_EFAULT th_encode_packetout");
+  } while (0);
+
+  ogg_stream_packetin($os, $op) == 0 or diag ("Internal Error 'ogg_stream_packetin");
+
+  save_page();
 }

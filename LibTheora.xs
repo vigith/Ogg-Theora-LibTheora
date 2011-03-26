@@ -718,6 +718,75 @@ LibTheora_th_encode_flushheader(_enc, _comments, _op)
     RETVAL
 
 
+=head1 th_encode_ycbcr_in
+
+Submits an uncompressed frame to the encoder. (if you don't have ycbcr buffer
+you can try using the *unoptimized* rgb_th_encode_ycbcr_in, better you write 
+your own).
+
+-Input:
+  th_enc_ctx,
+  th_ycbcr_buffer
+
+-Output:
+  0 Success,
+  TH_EFAULT _enc or _ycbcr is NULL,
+  TH_EINVAL buffer size does not match the frame size encoder was initialized.
+
+=cut
+int
+LibTheora_th_encode_ycbcr_in(_enc, _ycbcr)
+    th_enc_ctx *	_enc
+    th_ycbcr_buffer *	_ycbcr
+  CODE:
+    RETVAL = th_encode_ycbcr_in(_enc, *_ycbcr);
+  OUTPUT:
+    RETVAL
+
+=head1 th_encode_packetout
+
+Retrieves encoded video data packets. 
+
+-Input:
+  th_enc_ctx,
+  int (non-zero value if no more uncompressed frames will be submitted),
+  ogg_packet.
+
+-Output:
+  > 0 a video data packet was successfully produced,
+    0 no packet was produced, and no more encoded video data remains,
+  TH_EFAULT _enc or _op was NULL.
+
+=cut
+int
+LibTheora_th_encode_packetout(_enc, _last, _op)
+    th_enc_ctx *	_enc
+    int	       		_last
+    ogg_packet *	_op
+  CODE:
+    RETVAL = th_encode_packetout(_enc, _last, _op);
+  OUTPUT:
+    RETVAL
+
+
+=head1 th_encode_free
+
+Frees an allocated encoder instance. 
+
+-Input:
+  th_enc_ctx
+
+-Output:
+  void
+
+=cut
+void
+LibTheora_th_encode_free(_enc)
+    th_enc_ctx *	_enc
+  CODE:
+    th_encode_free(_enc);
+
+
 =head1 Miscellaneous Functions 
 
 These functions are not found in libtheora*, but is written by the XS author
@@ -989,3 +1058,130 @@ LibTheora_set_th_info(_info, hash)
     _info->fps_denominator = fps_denominator;
     _info->quality = quality;
     _info->keyframe_granule_shift = keyframe_granule_shift;
+
+
+=head1 rgb_th_encode_ycbcr_in
+
+Converts a rgb to ycbcr buffer. (this is not an optimized code)
+
+-Input:
+  th_enc_ctx
+  char * (rgb string),
+  width,
+  height.
+
+-Output:
+  th_ycbcr_buffer
+
+=cut
+int
+LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
+    th_enc_ctx *	_enc
+    char *		rgb
+    int	 		w
+    int 		h
+  PREINIT:
+      int c_out;
+    int size2;
+    unsigned int address;
+    char *data;
+    int i, j, n,nn;
+    int i1, i2, i3, i4;
+    int p1, p2, p3, p4;
+  
+    float r1, g1, b1, r2, g2, b2;
+    float r3, g3, b3, r4, g4, b4;
+  
+    float y1, u1, v1, y2, u2, v2;
+    float y3, u3, v3, y4, u4, v4;
+    float u, v;
+    unsigned char iy1, iy2, iy3, iy4, iu, iv;
+    th_ycbcr_buffer ycbcr;
+  INIT:
+    data = rgb;
+  CODE:
+    ycbcr[0].data = (unsigned char *) malloc(w*h);
+    ycbcr[1].data = (unsigned char *) malloc(w*h/4);
+    ycbcr[2].data = (unsigned char *) malloc(w*h/4);
+    ycbcr[0].width  = w;
+    ycbcr[0].height = h;
+    ycbcr[0].stride = w;
+  
+    ycbcr[1].width  = w/2;
+    ycbcr[1].height = h/2;
+    ycbcr[1].stride = w/2;
+  
+    ycbcr[2].width  = w/2;
+    ycbcr[2].height = h/2;
+    ycbcr[2].stride = w/2;
+    n = w*h/2;
+    nn = 0;
+    for (i =0; i < h; i+=2) {
+      for (j =0; j < w; j+=2) {
+        i1 = i*w+j;
+        i2 = i*w+(j+1);
+        i3 = (i+1)*w+j;
+        i4 = (i+1)*w+(j+1);
+        p1 = i1*3;
+        p2 = i2*3;
+        p3 = i3*3;
+        p4 = i4*3;
+  
+        r1 = (float) (((unsigned char) data[p1])   - 128);
+        g1 = (float) (((unsigned char) data[p1+1]) - 128);
+        b1 = (float) (((unsigned char) data[p1+2]) - 128);
+        r2 = (float) (((unsigned char) data[p2])   - 128);
+        g2 = (float) (((unsigned char) data[p2+1]) - 128);
+        b2 = (float) (((unsigned char) data[p2+2]) - 128);
+  
+        r3 = (float) (((unsigned char) data[p3])   - 128);
+        g3 = (float) (((unsigned char) data[p3+1]) - 128);
+        b3 = (float) (((unsigned char) data[p3+2]) - 128);
+        r4 = (float) (((unsigned char) data[p4])   - 128);
+        g4 = (float) (((unsigned char) data[p4+1]) - 128);
+        b4 = (float) (((unsigned char) data[p4+2]) - 128);
+  
+        r1 *= 0.80;
+        r2 *= 0.80;
+        r3 *= 0.80;
+        r4 *= 0.80;
+  
+        y1 = 0.299*r1 + 0.587*g1 + 0.114*b1 + 128;
+        u1 = -0.14713*r1 -0.28886*g1 + 0.436*b1 + 128;
+        v1 = 0.615*r1 + -0.51499*g1 + -0.10001*b1 + 128;
+  
+        y2 = 0.299*r2 + 0.587*g2 + 0.114*b2 + 128;
+        u2 = -0.14713*r2 -0.28886*g2 + 0.436*b2 + 128;
+        v2 = 0.615*r2 + -0.51499*g2 + -0.10001*b2 + 128;
+  
+        y3 = 0.299*r3 + 0.587*g3 + 0.114*b3 + 128;
+        u3 = -0.14713*r3 -0.28886*g3 + 0.436*b3 + 128;
+        v3 = 0.615*r3 + -0.51499*g3 + -0.10001*b3 + 128;
+  
+        y4 = 0.299*r4 + 0.587*g4 + 0.114*b4 + 128;
+        u4 = -0.14713*r4 -0.28886*g4 + 0.436*b4 + 128;
+        v4 = 0.615*r4 + -0.51499*g4 + -0.10001*b4 + 128;
+  
+        u = (u1 + u2 + u3 + u4)/4;
+        v = (v1 + v2 + v3 + v4)/4;
+  
+        iy1 = (unsigned char) (y1);
+        iy2 = (unsigned char) (y2);
+        iy3 = (unsigned char) (y2);
+        iy4 = (unsigned char) (y2);
+  
+        iu = (unsigned char) (u);
+        iv = (unsigned char) (v);
+  
+        ycbcr[0].data[i1] = iy1;
+        ycbcr[0].data[i2] = iy2;
+        ycbcr[0].data[i3] = iy3;
+        ycbcr[0].data[i4] = iy4;
+        ycbcr[1].data[nn] = iu;
+        ycbcr[2].data[nn] = iv;
+        ++nn;
+      }		
+    }
+    RETVAL = th_encode_ycbcr_in(_enc, ycbcr);
+  OUTPUT:
+    RETVAL
