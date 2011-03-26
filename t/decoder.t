@@ -117,11 +117,10 @@ ok(Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer) ==
 
 my $rgb_buf = Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer($th_ycbcr_buffer);
 ## testing inside testing :-)
-## i will read that file in Python and whether the pic is correct
-# open OUT, ">", "/tmp/rgb";
-# binmode OUT;
-# print OUT $rgb_buf;
-# close OUT;
+open OUT, ">", "t/dec_pic1.raw" or diag( "can't open $!");
+binmode OUT;
+print OUT $rgb_buf;
+close OUT;
 ok(length($rgb_buf) > 0, "ycbcr_to_rgb_buffer");
 
 ok(Ogg::Theora::LibTheora::th_granule_frame($th_dec_ctx, $gpos) == 0 , "th_granule_frame");

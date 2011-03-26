@@ -19,7 +19,7 @@ my $oy = make_ogg_sync_state();
 ok(ogg_sync_init($oy) == 0, "ogg_sync_init");
 
 ## Initializes the Ogg Stream State struct
-ok(ogg_stream_init($os, $$) == 0, "ogg_stream_init");
+ok(ogg_stream_init($os, 10101) == 0, "ogg_stream_init");
 
 
 #########################################################################################################
@@ -89,9 +89,9 @@ ok(1, 'save page');
 
 
 foreach ((1..5)) {
-  add_image("t/aaa.raw");
-  add_image("t/bbb.raw");
-  add_image("t/ccc.raw");
+  add_image("t/enc_pic1.raw");
+  add_image("t/enc_pic2.raw");
+  add_image("t/enc_pic3.raw");
 }
 ok(1, 'th_encode_packetout');
 
@@ -104,6 +104,7 @@ is(Ogg::Theora::LibTheora::th_encode_free($th_enc_ctx), undef, 'th_encode_free')
 
 close OUT;
 
+# let the file be kept, size is quite small
 # unlink $filename or die("can't remove $filename [$!]");
 
 
