@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 10;
+use Test::More tests => 14;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -14,6 +14,10 @@ my $og = make_ogg_page();
 my $os = make_ogg_stream_state();
 my $oy = make_ogg_sync_state();
 
+ok($op != 0, 'make_ogg_packet');
+ok($og != 0, 'make_ogg_page');
+ok($os != 0, 'make_ogg_stream_state');
+ok($oy != 0, 'make_ogg_sync_state');
 
 ## Ogg Sync Init
 ok(ogg_sync_init($oy) == 0, "ogg_sync_init");
