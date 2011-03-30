@@ -4,6 +4,7 @@ Makefile.PL
 MANIFEST
 ppport.h
 README
+typemap
 lib/Ogg/Theora/LibTheora.pm
 t/encoder.t
 t/extras.t
