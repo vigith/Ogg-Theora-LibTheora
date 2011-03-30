@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 23;
+use Test::More tests => 27;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -13,6 +13,11 @@ my $op = make_ogg_packet();
 my $og = make_ogg_page();
 my $os = make_ogg_stream_state();
 my $oy = make_ogg_sync_state();
+
+ok($op != 0, 'make_ogg_packet');
+ok($og != 0, 'make_ogg_page');
+ok($os != 0, 'make_ogg_stream_state');
+ok($oy != 0, 'make_ogg_sync_state');
 
 my $filename = "t/theora.ogg";
 open IN, $filename or die "can't open [$filename] : $!";
