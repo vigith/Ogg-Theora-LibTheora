@@ -472,6 +472,77 @@ XS(XS_Ogg__Theora__LibTheora_th_packet_isheader)
 }
 
 
+XS(XS_Ogg__Theora__LibTheora_th_granule_frame); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_granule_frame)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_encdec, _granpos");
+    {
+	void *	_encdec = INT2PTR(void *,SvIV(ST(0)));
+	ogg_int64_t	_granpos = (ogg_int64_t)SvNV(ST(1));
+	int	RETVAL;
+	dXSTARG;
+#line 298 "LibTheora.xs"
+    RETVAL = th_granule_frame(_encdec, _granpos);
+#line 493 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_granule_time); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_granule_time)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_encdec, _granpos");
+    {
+	void *	_encdec = INT2PTR(void *,SvIV(ST(0)));
+	ogg_int64_t	_granpos = (ogg_int64_t)SvNV(ST(1));
+	double	RETVAL;
+	dXSTARG;
+#line 321 "LibTheora.xs"
+    RETVAL = th_granule_time(_encdec, _granpos);
+#line 517 "LibTheora.c"
+	XSprePUSH; PUSHn((double)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_packet_iskeyframe); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_packet_iskeyframe)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_op");
+    {
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(0)));
+	int	RETVAL;
+	dXSTARG;
+#line 343 "LibTheora.xs"
+    RETVAL = th_packet_iskeyframe(_op);
+#line 540 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
 XS(XS_Ogg__Theora__LibTheora_th_comment_init); /* prototype to pass -Wmissing-prototypes */
 XS(XS_Ogg__Theora__LibTheora_th_comment_init)
 {
@@ -484,9 +555,9 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_init)
        croak_xs_usage(cv,  "_tc");
     {
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
-#line 310 "LibTheora.xs"
+#line 368 "LibTheora.xs"
     th_comment_init(_tc);
-#line 490 "LibTheora.c"
+#line 561 "LibTheora.c"
     }
     XSRETURN_EMPTY;
 }
@@ -504,11 +575,833 @@ XS(XS_Ogg__Theora__LibTheora_th_info_init)
        croak_xs_usage(cv,  "_info");
     {
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
-#line 328 "LibTheora.xs"
+#line 386 "LibTheora.xs"
     th_info_init(_info);
-#line 510 "LibTheora.c"
+#line 581 "LibTheora.c"
     }
     XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_info_clear); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_info_clear)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_info");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+#line 404 "LibTheora.xs"
+    th_info_clear(_info);
+#line 601 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_comment_add); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_comment_add)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_tc, _comment");
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+	char *	_comment = (char *)SvPV_nolen(ST(1));
+#line 424 "LibTheora.xs"
+    int i;
+    th_comment_add(_tc, _comment);
+#line 623 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_comment_add_tag); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_comment_add_tag)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 3)
+       croak_xs_usage(cv,  "_tc, _tag, _val");
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+	char *	_tag = (char *)SvPV_nolen(ST(1));
+	char *	_val = (char *)SvPV_nolen(ST(2));
+#line 444 "LibTheora.xs"
+    th_comment_add_tag(_tc, _tag, _val);
+#line 645 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_comment_query_count); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_comment_query_count)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_tc, _tag");
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+	char *	_tag = (char *)SvPV_nolen(ST(1));
+	int	RETVAL;
+	dXSTARG;
+#line 463 "LibTheora.xs"
+    RETVAL = th_comment_query_count(_tc, _tag);
+#line 668 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_comment_query); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_comment_query)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 3)
+       croak_xs_usage(cv,  "_tc, _tag, _count");
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+	char *	_tag = (char *)SvPV_nolen(ST(1));
+	int	_count = (int)SvIV(ST(2));
+	char *	RETVAL;
+	dXSTARG;
+#line 487 "LibTheora.xs"
+    RETVAL = th_comment_query(_tc, _tag, _count);
+#line 693 "LibTheora.c"
+	sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_headerin); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_headerin)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 4)
+       croak_xs_usage(cv,  "_info, _tc, _setup_addr, _op");
+    PERL_UNUSED_VAR(ax); /* -Wall */
+    SP -= items;
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(1)));
+	int	_setup_addr = (int)SvIV(ST(2));
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(3)));
+#line 523 "LibTheora.xs"
+    int status;
+    th_setup_info *_setup;
+#line 720 "LibTheora.c"
+#line 526 "LibTheora.xs"
+    _setup = (th_setup_info *) _setup_addr;
+    status = th_decode_headerin(_info, _tc, &_setup, _op);
+    XPUSHs(sv_2mortal(newSViv(status)));
+    XPUSHs(sv_2mortal(newSViv((unsigned int) _setup)));
+#line 726 "LibTheora.c"
+	PUTBACK;
+	return;
+    }
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_alloc); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_alloc)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_info, _setup");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+	int	_setup = (int)SvIV(ST(1));
+	th_dec_ctx *	RETVAL;
+	dXSTARG;
+#line 549 "LibTheora.xs"
+    RETVAL = th_decode_alloc(_info, (th_setup_info *) _setup);
+#line 750 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_setup_free); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_setup_free)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_setup");
+    {
+	int	_setup = (int)SvIV(ST(0));
+#line 569 "LibTheora.xs"
+    th_setup_free((th_setup_info *) _setup);
+#line 771 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_packetin); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_packetin)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 3)
+       croak_xs_usage(cv,  "_dec, _op, _granpos");
+    PERL_UNUSED_VAR(ax); /* -Wall */
+    SP -= items;
+    {
+	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(1)));
+	unsigned int	_granpos = (unsigned int)SvUV(ST(2));
+#line 595 "LibTheora.xs"
+    int status;
+#line 795 "LibTheora.c"
+#line 597 "LibTheora.xs"
+    status = th_decode_packetin(_dec, _op, (ogg_int64_t *) &_granpos);
+    XPUSHs(sv_2mortal(newSViv(status)));
+    XPUSHs(sv_2mortal(newSViv((unsigned int) _granpos)));
+#line 800 "LibTheora.c"
+	PUTBACK;
+	return;
+    }
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_ycbcr_out); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_ycbcr_out)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_dec, _ycbcr");
+    {
+	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
+	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(1)));
+	int	RETVAL;
+	dXSTARG;
+#line 619 "LibTheora.xs"
+    RETVAL = th_decode_ycbcr_out(_dec, *_ycbcr);
+#line 824 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_free); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_free)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_dec");
+    {
+	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
+#line 639 "LibTheora.xs"
+    th_decode_free(_dec);
+#line 845 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_decode_ctl); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_decode_ctl)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 4)
+       croak_xs_usage(cv,  "_dec, _req, _buf, _buf_sz");
+    {
+	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
+	int	_req = (int)SvIV(ST(1));
+	void *	_buf = INT2PTR(void *,SvIV(ST(2)));
+	size_t	_buf_sz = (size_t)SvUV(ST(3));
+	int	RETVAL;
+	dXSTARG;
+#line 663 "LibTheora.xs"
+    RETVAL = th_decode_ctl(_dec, _req, _buf, _buf_sz);
+#line 870 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_encode_alloc); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_encode_alloc)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_info");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+	th_enc_ctx *	RETVAL;
+	dXSTARG;
+#line 692 "LibTheora.xs"
+    RETVAL = th_encode_alloc(_info);
+#line 893 "LibTheora.c"
+	XSprePUSH; PUSHi(PTR2IV(RETVAL));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_encode_flushheader); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_encode_flushheader)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 3)
+       croak_xs_usage(cv,  "_enc, _comments, _op");
+    {
+	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
+	th_comment *	_comments = INT2PTR(th_comment *,SvIV(ST(1)));
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(2)));
+	int	RETVAL;
+	dXSTARG;
+#line 716 "LibTheora.xs"
+    RETVAL = th_encode_flushheader(_enc, _comments, _op);
+#line 918 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_encode_ycbcr_in); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_encode_ycbcr_in)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_enc, _ycbcr");
+    {
+	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
+	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(1)));
+	int	RETVAL;
+	dXSTARG;
+#line 742 "LibTheora.xs"
+    RETVAL = th_encode_ycbcr_in(_enc, *_ycbcr);
+#line 942 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_encode_packetout); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_encode_packetout)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 3)
+       croak_xs_usage(cv,  "_enc, _last, _op");
+    {
+	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
+	int	_last = (int)SvIV(ST(1));
+	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(2)));
+	int	RETVAL;
+	dXSTARG;
+#line 767 "LibTheora.xs"
+    RETVAL = th_encode_packetout(_enc, _last, _op);
+#line 967 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_th_encode_free); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_th_encode_free)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_enc");
+    {
+	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
+#line 787 "LibTheora.xs"
+    th_encode_free(_enc);
+#line 988 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_get_th_info); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_get_th_info)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_info");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+#line 812 "LibTheora.xs"
+    HV * hash;
+#line 1008 "LibTheora.c"
+	HV *	RETVAL;
+#line 814 "LibTheora.xs"
+    hash = newHV();
+    sv_2mortal((SV *)hash);	/* convert the HASH to a mortal */
+    hv_store(hash, "frame_width", strlen("frame_width"), newSVnv(_info->frame_width), 0);
+    hv_store(hash, "frame_height", strlen("frame_height"), newSVnv(_info->frame_height), 0);
+    hv_store(hash, "pic_width", strlen("pic_width"), newSVnv(_info->pic_width), 0);
+    hv_store(hash, "pic_height", strlen("pic_height"), newSVnv(_info->pic_height), 0);
+    hv_store(hash, "pic_x", strlen("pic_x"), newSVnv(_info->pic_x), 0);
+    hv_store(hash, "pic_y", strlen("pic_y"), newSVnv(_info->pic_y), 0);
+    hv_store(hash, "colorspace", strlen("colorspace"), newSVnv(_info->colorspace), 0);
+    hv_store(hash, "pixel_fmt", strlen("pixel_fmt"), newSVnv(_info->pixel_fmt), 0);
+    hv_store(hash, "target_bitrate", strlen("target_bitrate"), newSVnv(_info->target_bitrate), 0);
+    hv_store(hash, "quality", strlen("quality"), newSVnv(_info->quality), 0);
+    hv_store(hash, "version_major", strlen("version_major"), newSVnv(_info->version_major), 0);
+    hv_store(hash, "version_minor", strlen("version_minor"), newSVnv(_info->version_minor), 0);
+    hv_store(hash, "version_subminor", strlen("version_subminor"), newSVnv(_info->version_subminor), 0);
+    hv_store(hash, "fps_numerator", strlen("fps_numerator"), newSVnv(_info->fps_numerator), 0);
+    hv_store(hash, "fps_denominator", strlen("fps_denominator"), newSVnv(_info->fps_denominator), 0);
+    hv_store(hash, "aspect_numerator", strlen("aspect_numerator"), newSVnv(_info->aspect_numerator), 0);
+    hv_store(hash, "aspect_denominator", strlen("aspect_denominator"), newSVnv(_info->aspect_denominator), 0);
+    hv_store(hash, "keyframe_granule_shift", strlen("keyframe_granule_shift"), newSVnv(_info->keyframe_granule_shift), 0);
+
+    RETVAL = hash;
+#line 1033 "LibTheora.c"
+	ST(0) = newRV((SV*)RETVAL);
+	sv_2mortal(ST(0));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_ycbcr_to_rgb_buffer); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_ycbcr_to_rgb_buffer)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_ycbcr");
+    {
+	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(0)));
+#line 858 "LibTheora.xs"
+    th_ycbcr_buffer buffer;
+    char *rgb;
+    long size, size1, size2, size3;
+    int i, i2, j, j2;
+    long pos, pos1, pos2;
+    int Y, U, V;
+    int R, G, B;
+#line 1061 "LibTheora.c"
+	SV *	RETVAL;
+#line 866 "LibTheora.xs"
+    memcpy(buffer,_ycbcr, sizeof(buffer));
+    size1 = buffer[0].width * buffer[0].height;
+    size2 = buffer[1].width * buffer[1].height;
+    size3 = buffer[2].width * buffer[2].height;
+    size = size1*3;
+    // this way, i don't have to worry about free'ing
+    RETVAL = newSV(size); // returns a pointer of type (SV *)
+    SvPOK_on(RETVAL); 
+    // SvPV_nolen returns the pointer to array in RETVAL
+    rgb = (char *)SvPV_nolen(RETVAL); 
+    // rgb == SvPV(RETVAL, size), i was curious :-)
+    for(i=0;i<buffer[0].height;i++) {
+      for(j=0;j<buffer[0].width;j++) {
+        i2 = (int) i/2;
+        j2 = (int) j/2;
+        pos = i*buffer[0].stride +j;
+        pos1 = i2*buffer[1].stride + j2;
+        pos2 = i2*buffer[2].stride + j2;
+        Y = (int) buffer[0].data[pos];
+        U = (int) buffer[1].data[pos1];
+        V = (int) buffer[2].data[pos2];
+        Y = Y - 128 - 16;
+        U = U - 128;
+        V = V - 128;
+
+        R = Y + 1.140*V;
+        G = Y - 0.395*U - 0.581*V;
+        B = Y + 2.032*U;
+        R += 128;
+        G += 128;
+        B += 128;
+        if (R > 255) R = 255;
+        if (R < 0) R = 0;
+        if (G > 255) G = 255;
+        if (G < 0) G = 0;
+        if (B > 255) B = 255;
+        if (B < 0) B = 0;
+        pos2 = (i*buffer[0].width+j)*3;
+
+        rgb[pos2] = R; 
+        rgb[pos2+1] = G; 
+        rgb[pos2+2] = B; 
+      }
+    }  	
+    SvCUR_set(RETVAL, size);
+#line 1109 "LibTheora.c"
+	ST(0) = RETVAL;
+	sv_2mortal(ST(0));
+    }
+    XSRETURN(1);
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_get_th_comment); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_get_th_comment)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 1)
+       croak_xs_usage(cv,  "_tc");
+    PERL_UNUSED_VAR(ax); /* -Wall */
+    SP -= items;
+    {
+	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
+#line 930 "LibTheora.xs"
+    int i = 0;
+#line 1133 "LibTheora.c"
+#line 932 "LibTheora.xs"
+    EXTEND(SP, _tc->comments);
+    for(i=0; i < _tc->comments; i++) {
+      PUSHs((SV *)sv_2mortal(newSVpv(_tc->user_comments[i], strlen(_tc->user_comments[i]))));
+    }
+#line 1139 "LibTheora.c"
+	PUTBACK;
+	return;
+    }
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_set_th_info); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_set_th_info)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 2)
+       croak_xs_usage(cv,  "_info, hash");
+    {
+	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
+	HV *	hash;
+#line 955 "LibTheora.xs"
+    char * key;
+    I32 klen;
+    SV *val;
+    int flag = 0;
+
+    int frame_width  = 0;
+    int frame_height = 0;
+    int pic_width    = 0;
+    int pic_height   = 0;
+    int pic_x	     = 0;
+    int pic_y	     = 0;
+    int colorspace   = TH_CS_ITU_REC_470M;
+    int pixel_fmt    = TH_PF_420;
+    int quality	     = 0;
+    int keyframe_granule_shift = 6;
+    int target_bitrate	       = 0;
+    int aspect_denominator     = 1;
+    int aspect_numerator       = 1;
+    int fps_numerator	       = 25000;
+    int fps_denominator	       = 1000;
+#line 1180 "LibTheora.c"
+
+	if (SvROK(ST(1)) && SvTYPE(SvRV(ST(1)))==SVt_PVHV)
+	    hash = (HV*)SvRV(ST(1));
+	else
+	    Perl_croak(aTHX_ "%s: %s is not a hash reference",
+			"Ogg::Theora::LibTheora::set_th_info",
+			"hash");
+#line 976 "LibTheora.xs"
+    /* get the values from the hash and override the defaults */
+    (void)hv_iterinit(hash);
+    while ((val = hv_iternextsv(hash, (char **) &key, &klen))) {
+      if (strEQ(key, "frame_width")) {
+        frame_width = SvIV(val);
+	flag++;
+	continue;
+      }
+      if (strEQ(key, "frame_height")) {
+        frame_height = SvIV(val);
+	flag++;
+	continue;
+      }
+      if (strEQ(key, "pic_width")) {
+        pic_width = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_height")) {
+        pic_height = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_x")) {
+        pic_x = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pic_y")) {
+        pic_y = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "colorspace")) {
+        colorspace = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "pixel_fmt")) {
+        pixel_fmt = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "target_bitrate")) {
+        target_bitrate = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "aspect_denominator")) {
+        aspect_denominator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "aspect_numerator")) {
+        aspect_numerator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "fps_numerator")) {
+        fps_numerator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "fps_denominator")) {
+        fps_denominator = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "quality")) {
+        quality = SvIV(val);
+	continue;
+      }
+      if (strEQ(key, "keyframe_granule_shift")) {
+        keyframe_granule_shift = SvIV(val);
+	continue;
+      }
+    }
+
+    if(flag != 2)
+      Perl_croak(aTHX_ "please give 'frame_width' and 'frame_height'");
+
+    _info->frame_width  = frame_width;
+    _info->frame_height = frame_height;
+    _info->pic_width  = (pic_width == 0  ? frame_width  : pic_width);
+    _info->pic_height = (pic_height == 0 ? frame_height : pic_height);
+    _info->pic_x = pic_x;
+    _info->pic_y = pic_y;
+    _info->colorspace = colorspace;
+    _info->pixel_fmt  = pixel_fmt;
+    _info->target_bitrate = target_bitrate;
+    _info->aspect_denominator = aspect_denominator;
+    _info->aspect_numerator   = aspect_numerator;
+    _info->fps_numerator   = fps_numerator;
+    _info->fps_denominator = fps_denominator;
+    _info->quality = quality;
+    _info->keyframe_granule_shift = keyframe_granule_shift;
+#line 1274 "LibTheora.c"
+    }
+    XSRETURN_EMPTY;
+}
+
+
+XS(XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in); /* prototype to pass -Wmissing-prototypes */
+XS(XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in)
+{
+#ifdef dVAR
+    dVAR; dXSARGS;
+#else
+    dXSARGS;
+#endif
+    if (items != 4)
+       croak_xs_usage(cv,  "_enc, rgb, w, h");
+    {
+	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
+	char *	rgb = (char *)SvPV_nolen(ST(1));
+	int	w = (int)SvIV(ST(2));
+	int	h = (int)SvIV(ST(3));
+#line 1084 "LibTheora.xs"
+      int c_out;
+    int size2;
+    unsigned int address;
+    char *data;
+    int i, j, n,nn;
+    int i1, i2, i3, i4;
+    int p1, p2, p3, p4;
+
+    float r1, g1, b1, r2, g2, b2;
+    float r3, g3, b3, r4, g4, b4;
+
+    float y1, u1, v1, y2, u2, v2;
+    float y3, u3, v3, y4, u4, v4;
+    float u, v;
+    unsigned char iy1, iy2, iy3, iy4, iu, iv;
+    th_ycbcr_buffer ycbcr;
+#line 1312 "LibTheora.c"
+	int	RETVAL;
+	dXSTARG;
+#line 1101 "LibTheora.xs"
+    data = rgb;
+#line 1317 "LibTheora.c"
+#line 1103 "LibTheora.xs"
+    ycbcr[0].data = (unsigned char *) malloc(w*h);
+    ycbcr[1].data = (unsigned char *) malloc(w*h/4);
+    ycbcr[2].data = (unsigned char *) malloc(w*h/4);
+    ycbcr[0].width  = w;
+    ycbcr[0].height = h;
+    ycbcr[0].stride = w;
+
+    ycbcr[1].width  = w/2;
+    ycbcr[1].height = h/2;
+    ycbcr[1].stride = w/2;
+
+    ycbcr[2].width  = w/2;
+    ycbcr[2].height = h/2;
+    ycbcr[2].stride = w/2;
+    n = w*h/2;
+    nn = 0;
+    for (i =0; i < h; i+=2) {
+      for (j =0; j < w; j+=2) {
+        i1 = i*w+j;
+        i2 = i*w+(j+1);
+        i3 = (i+1)*w+j;
+        i4 = (i+1)*w+(j+1);
+        p1 = i1*3;
+        p2 = i2*3;
+        p3 = i3*3;
+        p4 = i4*3;
+
+        r1 = (float) (((unsigned char) data[p1])   - 128);
+        g1 = (float) (((unsigned char) data[p1+1]) - 128);
+        b1 = (float) (((unsigned char) data[p1+2]) - 128);
+        r2 = (float) (((unsigned char) data[p2])   - 128);
+        g2 = (float) (((unsigned char) data[p2+1]) - 128);
+        b2 = (float) (((unsigned char) data[p2+2]) - 128);
+
+        r3 = (float) (((unsigned char) data[p3])   - 128);
+        g3 = (float) (((unsigned char) data[p3+1]) - 128);
+        b3 = (float) (((unsigned char) data[p3+2]) - 128);
+        r4 = (float) (((unsigned char) data[p4])   - 128);
+        g4 = (float) (((unsigned char) data[p4+1]) - 128);
+        b4 = (float) (((unsigned char) data[p4+2]) - 128);
+
+        r1 *= 0.80;
+        r2 *= 0.80;
+        r3 *= 0.80;
+        r4 *= 0.80;
+
+        y1 = 0.299*r1 + 0.587*g1 + 0.114*b1 + 128;
+        u1 = -0.14713*r1 -0.28886*g1 + 0.436*b1 + 128;
+        v1 = 0.615*r1 + -0.51499*g1 + -0.10001*b1 + 128;
+
+        y2 = 0.299*r2 + 0.587*g2 + 0.114*b2 + 128;
+        u2 = -0.14713*r2 -0.28886*g2 + 0.436*b2 + 128;
+        v2 = 0.615*r2 + -0.51499*g2 + -0.10001*b2 + 128;
+
+        y3 = 0.299*r3 + 0.587*g3 + 0.114*b3 + 128;
+        u3 = -0.14713*r3 -0.28886*g3 + 0.436*b3 + 128;
+        v3 = 0.615*r3 + -0.51499*g3 + -0.10001*b3 + 128;
+
+        y4 = 0.299*r4 + 0.587*g4 + 0.114*b4 + 128;
+        u4 = -0.14713*r4 -0.28886*g4 + 0.436*b4 + 128;
+        v4 = 0.615*r4 + -0.51499*g4 + -0.10001*b4 + 128;
+
+        u = (u1 + u2 + u3 + u4)/4;
+        v = (v1 + v2 + v3 + v4)/4;
+
+        iy1 = (unsigned char) (y1);
+        iy2 = (unsigned char) (y2);
+        iy3 = (unsigned char) (y2);
+        iy4 = (unsigned char) (y2);
+
+        iu = (unsigned char) (u);
+        iv = (unsigned char) (v);
+
+        ycbcr[0].data[i1] = iy1;
+        ycbcr[0].data[i2] = iy2;
+        ycbcr[0].data[i3] = iy3;
+        ycbcr[0].data[i4] = iy4;
+        ycbcr[1].data[nn] = iu;
+        ycbcr[2].data[nn] = iv;
+        ++nn;
+      }		
+    }
+    RETVAL = th_encode_ycbcr_in(_enc, ycbcr);
+#line 1402 "LibTheora.c"
+	XSprePUSH; PUSHi((IV)RETVAL);
+    }
+    XSRETURN(1);
 }
 
 #ifdef __cplusplus
@@ -544,8 +1437,33 @@ XS(boot_Ogg__Theora__LibTheora)
         newXS("Ogg::Theora::LibTheora::th_version_number", XS_Ogg__Theora__LibTheora_th_version_number, file);
         newXS("Ogg::Theora::LibTheora::th_version_string", XS_Ogg__Theora__LibTheora_th_version_string, file);
         newXS("Ogg::Theora::LibTheora::th_packet_isheader", XS_Ogg__Theora__LibTheora_th_packet_isheader, file);
+        newXS("Ogg::Theora::LibTheora::th_granule_frame", XS_Ogg__Theora__LibTheora_th_granule_frame, file);
+        newXS("Ogg::Theora::LibTheora::th_granule_time", XS_Ogg__Theora__LibTheora_th_granule_time, file);
+        newXS("Ogg::Theora::LibTheora::th_packet_iskeyframe", XS_Ogg__Theora__LibTheora_th_packet_iskeyframe, file);
         newXS("Ogg::Theora::LibTheora::th_comment_init", XS_Ogg__Theora__LibTheora_th_comment_init, file);
         newXS("Ogg::Theora::LibTheora::th_info_init", XS_Ogg__Theora__LibTheora_th_info_init, file);
+        newXS("Ogg::Theora::LibTheora::th_info_clear", XS_Ogg__Theora__LibTheora_th_info_clear, file);
+        newXS("Ogg::Theora::LibTheora::th_comment_add", XS_Ogg__Theora__LibTheora_th_comment_add, file);
+        newXS("Ogg::Theora::LibTheora::th_comment_add_tag", XS_Ogg__Theora__LibTheora_th_comment_add_tag, file);
+        newXS("Ogg::Theora::LibTheora::th_comment_query_count", XS_Ogg__Theora__LibTheora_th_comment_query_count, file);
+        newXS("Ogg::Theora::LibTheora::th_comment_query", XS_Ogg__Theora__LibTheora_th_comment_query, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_headerin", XS_Ogg__Theora__LibTheora_th_decode_headerin, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_alloc", XS_Ogg__Theora__LibTheora_th_decode_alloc, file);
+        newXS("Ogg::Theora::LibTheora::th_setup_free", XS_Ogg__Theora__LibTheora_th_setup_free, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_packetin", XS_Ogg__Theora__LibTheora_th_decode_packetin, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_ycbcr_out", XS_Ogg__Theora__LibTheora_th_decode_ycbcr_out, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_free", XS_Ogg__Theora__LibTheora_th_decode_free, file);
+        newXS("Ogg::Theora::LibTheora::th_decode_ctl", XS_Ogg__Theora__LibTheora_th_decode_ctl, file);
+        newXS("Ogg::Theora::LibTheora::th_encode_alloc", XS_Ogg__Theora__LibTheora_th_encode_alloc, file);
+        newXS("Ogg::Theora::LibTheora::th_encode_flushheader", XS_Ogg__Theora__LibTheora_th_encode_flushheader, file);
+        newXS("Ogg::Theora::LibTheora::th_encode_ycbcr_in", XS_Ogg__Theora__LibTheora_th_encode_ycbcr_in, file);
+        newXS("Ogg::Theora::LibTheora::th_encode_packetout", XS_Ogg__Theora__LibTheora_th_encode_packetout, file);
+        newXS("Ogg::Theora::LibTheora::th_encode_free", XS_Ogg__Theora__LibTheora_th_encode_free, file);
+        newXS("Ogg::Theora::LibTheora::get_th_info", XS_Ogg__Theora__LibTheora_get_th_info, file);
+        newXS("Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer", XS_Ogg__Theora__LibTheora_ycbcr_to_rgb_buffer, file);
+        newXS("Ogg::Theora::LibTheora::get_th_comment", XS_Ogg__Theora__LibTheora_get_th_comment, file);
+        newXS("Ogg::Theora::LibTheora::set_th_info", XS_Ogg__Theora__LibTheora_set_th_info, file);
+        newXS("Ogg::Theora::LibTheora::rgb_th_encode_ycbcr_in", XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in, file);
 #if (PERL_REVISION == 5 && PERL_VERSION >= 9)
   if (PL_unitcheckav)
        call_list(PL_scopestack_ix, PL_unitcheckav);
