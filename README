@@ -1,16 +1,7 @@
 Ogg-Theora-LibTheora version 0.01
 =================================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
-
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+Perl Module to give access to libtheora functions.
 
 INSTALLATION
 
@@ -25,15 +16,28 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+This module requires Ogg::LibOgg and depends on libogg and libtheora library.
 
+You will have to install libogg, libogg-devel, libtheora and libtheora-devel in Linux 
+BUT only libogg and libtheora in Mac to make this module work (please use your discretion).
+
+Mac OS:
+sudo port install libogg
+sudo port install libtheora
+
+Linux:
+sudo yum install libogg
+sudo yum install libogg-devel
+sudo yum install libtheora
+sudo yum install libtheora-devel
+
+Windows:
+Not Sure, never tested or tried :-)
 
 
 COPYRIGHT AND LICENCE
 
-Put the correct copyright and licence information here.
-
-Copyright (C) 2011 by Vigith Maurice
+Copyright (C) 2011 by Vigith Maurice (vigith@cpan.org, www.vigith.com)
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.9 or,

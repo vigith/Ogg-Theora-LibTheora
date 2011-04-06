@@ -217,7 +217,15 @@ __END__
 
 Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codec functions in Perl.
 
+=head1 DESCRIPTION
+
+Ogg::Theora::LibTheora is a glue between theora/theora.h theora/theoraenc.h and theora/theoradec.h . 
+
+
 =head1 SYNOPSIS ENCODE
+
+  ## constants are exported by DEFAULT
+  use Ogg::Theora::LibTheora ':all'; # to export everything to current namespace
 
 Encoding raw RGB files to create a theora video file.
 
@@ -423,10 +431,6 @@ Decoding a theora video file to generate the raw RGB files. (here we generate on
   }
 
 
-=head1 DESCRIPTION
-
-
-
 =head2 EXPORT
 
 None by default.
@@ -495,14 +499,6 @@ None by default.
   TH_RATECTL_CAP_OVERFLOW
   TH_RATECTL_CAP_UNDERFLOW
   TH_RATECTL_DROP_FRAMES
-
-
-
-
-=head1 NAME
-
-Ogg::Theora::LibTheora - Perl bindings for Theora Encoder and Decoder
-
 
 =head1 Functions (malloc)
 
@@ -1003,7 +999,9 @@ Converts a rgb to ycbcr buffer. (this is not an optimized code)
 
 This Modules expects the Theora file to be contained in an Ogg container (which true for most of the theora videos
 at the time of writing this module). Few of the miscellaneous functions like B<rgb_th_encode_ycbcr_in>, 
-B<ycbcr_to_rgb_buffer> are not optimized.
+B<ycbcr_to_rgb_buffer> are not optimized. This module seems to give B<Segmentation Fault> if the version of libtheora
+is pre-1.0. In my system (Mac OS X, 10.5.8) when i wrote this module, I was using libtheora @1.1.1_0 (active)
+and libogg @1.1.4_0 (active).
 
 =head1 SEE ALSO
 
@@ -1012,7 +1010,7 @@ L<http://www.theora.org/doc/libtheora-1.0/>
 
 =head1 AUTHOR
 
-Vigith Maurice, E<lt>vigith@cpan.org<gt>
+Vigith Maurice, E<lt>vigith@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
