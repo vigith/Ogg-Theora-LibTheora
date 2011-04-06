@@ -18,12 +18,6 @@ INCLUDE: const-xs.inc
 
 PROTOTYPES: DISABLE
 
-=head1 NAME
-
-Ogg::Theora::LibTheora - Perl bindings for Theora Encoder and Decoder
-
-=cut
-
 =head1 Functions (malloc)
 
 L<http://www.theora.org/doc/libtheora-1.0/annotated.html>

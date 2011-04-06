@@ -185,7 +185,7 @@ our @EXPORT = qw(
     TH_RATECTL_DROP_FRAMES
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.01.2';
 
 sub AUTOLOAD {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
