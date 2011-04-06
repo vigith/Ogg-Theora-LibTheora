@@ -666,7 +666,7 @@ LibTheora_th_decode_ctl(_dec, _req, _buf, _buf_sz)
 
 
 
-=head1 Function (for Encoding)
+=head1 Functions (for Encoding)
 
 L<http://www.theora.org/doc/libtheora-1.0/group__encfuncs.html>
 

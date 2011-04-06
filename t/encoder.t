@@ -80,9 +80,9 @@ my $status = 1;
 do {
   $status = Ogg::Theora::LibTheora::th_encode_flushheader($th_enc_ctx, $th_comment, $op);
   if ($status > 0) {
-    ogg_stream_packetin($os, $op) == 0 or die "ogg_stream_packetin returned -1\n"
-  } elsif ($status == TH_EFAULT) {
-    die "TH_EFAULT\n"
+    ogg_stream_packetin($os, $op) == 0 or warn "ogg_stream_packetin returned -1\n"
+  } elsif ($status == Ogg::Theora::LibTheora::TH_EFAULT) {
+    warn "TH_EFAULT\n"
   }
 } while ($status != 0);
 
