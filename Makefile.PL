@@ -1,6 +1,10 @@
 use 5.008000;
 use ExtUtils::MakeMaker;
 
+eval { require Ogg::LibOgg };
+if ($@) {
+  die "Oops, we require Ogg::LibOgg!! $@"
+}
 
 WriteMakefile(
     NAME              => 'Ogg::Theora::LibTheora',
