@@ -215,9 +215,11 @@ __END__
 
 =head1 NAME
 
-Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codecs functions in Perl.
+Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codec functions in Perl.
 
 =head1 SYNOPSIS ENCODE
+
+Encoding raw RGB files to create a theora video file.
 
   use Ogg::Theora::LibTheora;
   use Ogg::LibOgg ':all';
@@ -274,7 +276,7 @@ Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codecs functions 
   save_page();
 
   foreach ((1..5)) {
-    add_image("t/enc_pic1.raw");
+    add_image("t/enc_pic1.raw");  ## raw files are raw RGB data files
     add_image("t/enc_pic2.raw");
     add_image("t/enc_pic3.raw");
   }
@@ -312,6 +314,112 @@ Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codecs functions 
     ogg_stream_packetin($os, $op) == 0 or warn ("Internal Error 'ogg_stream_packetin");
   
     save_page();
+  }
+
+
+=head1 SYNOPSIS DECODE
+
+Decoding a theora video file to generate the raw RGB files. (here we generate only 1 raw file)
+
+  use strict;
+  use Ogg::LibOgg ':all';
+
+  use Ogg::Theora::LibTheora;
+
+
+  ## Make Ogg Structures
+  my $op = make_ogg_packet();
+  my $og = make_ogg_page();
+  my $os = make_ogg_stream_state();
+  my $oy = make_ogg_sync_state();
+
+  my $filename = "t/theora.ogg";
+  open IN, $filename or die "can't open [$filename] : $!";
+
+  ## Ogg Sync Init
+  ogg_sync_init($oy);
+
+  ## read a page (wrapper for ogg_sync_pageout)
+  ogg_read_page(*IN, $oy, $og);
+
+  my $slno = ogg_page_serialno($og);
+
+  ## Initializes the Ogg Stream State struct
+  ogg_stream_init($os, $slno);
+
+  ## add complete page to the bitstream, o create a valid ogg_page struct
+  ## after calling ogg_sync_pageout (read_page does ogg_sync_pageout)
+  ogg_stream_pagein($os, $og);
+
+  my $th_comment = Ogg::Theora::LibTheora::make_th_comment();
+  Ogg::Theora::LibTheora::th_comment_init($th_comment);
+  my $th_info = Ogg::Theora::LibTheora::make_th_info();
+  Ogg::Theora::LibTheora::th_info_init($th_info);
+
+
+  ###############################################################################################
+  # (1) Parse the header packets by repeatedly calling th_decode_headerin().                    #
+  # (2) Allocate a th_dec_ctx handle with th_decode_alloc().                                    #
+  # (3) Call th_setup_free() to free any memory used for codec setup information.               #
+  # (4) Perform any additional decoder configuration with th_decode_ctl().                      #
+  # (5) For each video data packet:                                                             #
+  #     (5.a) Submit the packet to the decoder via th_decode_packetin().                        #
+  #     (5.b) Retrieve the uncompressed video data via th_decode_ycbcr_out().                   #
+  # (6) Call th_decode_free() to release all decoder memory.                                    #
+  ###############################################################################################
+
+  ## Decode Header and parse the stream till the first VIDEO packet gets in
+  my $th_setup_info_addr = 0;
+  my $ret = undef;
+  Ogg::Theora::LibTheora::th_packet_isheader($op);
+  Ogg::Theora::LibTheora::th_packet_iskeyframe($op);
+
+  do {
+    ($ret, $th_setup_info_addr) = Ogg::Theora::LibTheora::th_decode_headerin($th_info, $th_comment, $th_setup_info_addr, $op);
+    ## $ret > 0 indicates that a Theora header was successfully processed.
+    readPacket() if $ret != 0;
+  } while ($ret != 0); ## ret == 0 means, first video data packet was encountered
+
+  ## th_decode_alloc
+  my $th_dec_ctx = Ogg::Theora::LibTheora::th_decode_alloc($th_info, $th_setup_info_addr);
+
+  ## th_setup_free
+  Ogg::Theora::LibTheora::th_setup_free($th_setup_info_addr);
+
+  ## Make th_ycbcr_buffer
+  my $th_ycbcr_buffer = Ogg::Theora::LibTheora::make_th_ycbcr_buffer();
+
+
+  ## th_decode_packetin
+  my $gpos = 0;
+  $ret = undef;
+  ($ret, $gpos) = Ogg::Theora::LibTheora::th_decode_packetin($th_dec_ctx, $op, $gpos);
+
+  ## th_decode_ycbcr_out
+  Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer);
+
+  my $rgb_buf = Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer($th_ycbcr_buffer);
+
+  open OUT, ">", "t/dec_pic1.raw" or diag( "can't open $!");
+  binmode OUT;
+  print OUT $rgb_buf;
+  close OUT;
+
+  ## th_decode_free
+  Ogg::Theora::LibTheora::th_decode_free($th_dec_ctx);
+
+  Ogg::Theora::LibTheora::th_info_clear($th_info);
+
+  close IN;
+
+
+  sub readPacket {
+    while (ogg_stream_packetout($os, $op) == 0) {
+      if (not defined ogg_read_page(*IN, $oy, $og)) {
+        return undef
+      }
+      ogg_stream_pagein($os, $og);
+    }
   }
 
 
