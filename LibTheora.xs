@@ -24,7 +24,7 @@ L<http://www.theora.org/doc/libtheora-1.0/annotated.html>
 
 =cut
 
-=head1 make_th_info
+=head2 make_th_info
 
 Creates a memory allocation for th_info.
 
@@ -46,7 +46,7 @@ LibTheora_make_th_info()
     RETVAL  
 
 
-=head1 make_th_huff_code
+=head2 make_th_huff_code
 
 Creates a memory allocation for th_huff_code.
 
@@ -68,7 +68,7 @@ LibTheora_make_th_huff_code()
     RETVAL
 
 
-=head1 make_th_img_plane
+=head2 make_th_img_plane
 
 Creates a memory allocation for th_img_plane.
 
@@ -90,7 +90,7 @@ LibTheora_make_th_img_plane()
     RETVAL
 
 
-=head1 make_th_quant_info
+=head2 make_th_quant_info
 
 Creates a memory allocation for th_quant_info.
 
@@ -112,7 +112,7 @@ LibTheora_make_th_quant_info()
     RETVAL
 
 
-=head1 make_th_quant_ranges
+=head2 make_th_quant_ranges
 
 Creates a memory allocation for th_quant_ranges.
 
@@ -134,7 +134,7 @@ LibTheora_make_th_quant_ranges()
     RETVAL
 
 
-=head1 make_th_stripe_callback
+=head2 make_th_stripe_callback
 
 Creates a memory allocation for th_stripe_callback.
 
@@ -156,7 +156,7 @@ LibTheora_make_th_stripe_callback()
     RETVAL
 
 
-=head1 make_th_ycbcr_buffer
+=head2 make_th_ycbcr_buffer
 
 Creates a memory allocation for th_ycbcr_buffer.
 
@@ -178,7 +178,7 @@ LibTheora_make_th_ycbcr_buffer()
     RETVAL
 
 
-=head1 make_th_comment
+=head2 make_th_comment
 
 Creates a memory allocation for th_comment.
 
@@ -206,7 +206,7 @@ L<http://www.theora.org/doc/libtheora-1.0/group__basefuncs.html>
 
 =cut
 
-=head1 th_version_number
+=head2 th_version_number
 
 Retrieves the library version number. 
 
@@ -228,7 +228,7 @@ LibTheora_th_version_number()
     RETVAL
 
 
-=head1 th_version_string
+=head2 th_version_string
 
 Retrieves a human-readable string to identify the library vendor and version. 
 
@@ -250,7 +250,7 @@ LibTheora_th_version_string()
     RETVAL
 
 
-=head1 th_packet_isheader
+=head2 th_packet_isheader
 
 Determines whether a Theora packet is a header or not. 
 
@@ -271,7 +271,7 @@ LibTheora_th_packet_isheader(_op)
     RETVAL
 
 
-=head1 th_granule_frame
+=head2 th_granule_frame
 
 Converts a granule position to an absolute frame index, starting at 0. 
 
@@ -294,7 +294,7 @@ LibTheora_th_granule_frame(_encdec, _granpos)
     RETVAL
 
 
-=head1 th_granule_time
+=head2 th_granule_time
 
 Converts a granule position to an absolute time in seconds. 
 
@@ -317,7 +317,7 @@ LibTheora_th_granule_time(_encdec, _granpos)
     RETVAL
 
 
-=head1 th_packet_iskeyframe
+=head2 th_packet_iskeyframe
 
 Determines whether a theora packet is a key frame or not. 
 
@@ -344,7 +344,7 @@ LibTheora_th_packet_iskeyframe(_op)
 
 =cut
 
-=head1 th_comment_init
+=head2 th_comment_init
 
 Initialize a th_comment structure. 
 
@@ -362,7 +362,7 @@ LibTheora_th_comment_init(_tc)
     th_comment_init(_tc);
 
 
-=head1 th_info_init
+=head2 th_info_init
 
 Initializes a th_info structure. 
 
@@ -380,7 +380,7 @@ LibTheora_th_info_init(_info)
     th_info_init(_info);
 
 
-=head1 th_info_clear
+=head2 th_info_clear
 
 Clears a th_info structure. 
 
@@ -398,7 +398,7 @@ LibTheora_th_info_clear(_info)
     th_info_clear(_info);
 
 
-=head1 th_comment_add
+=head2 th_comment_add
 
 Add a comment to an initialized th_comment structure. 
 
@@ -419,7 +419,7 @@ LibTheora_th_comment_add(_tc, _comment)
     th_comment_add(_tc, _comment);
 
 
-=head1 th_comment_add_tag
+=head2 th_comment_add_tag
 
 Add a comment to an initialized th_comment structure. 
 
@@ -437,7 +437,7 @@ LibTheora_th_comment_add_tag(_tc, _tag, _val)
   CODE:
     th_comment_add_tag(_tc, _tag, _val);
 
-=head1 th_comment_query_count
+=head2 th_comment_query_count
 
 Look up the number of instances of a tag.
 
@@ -458,7 +458,7 @@ LibTheora_th_comment_query_count(_tc, _tag)
   OUTPUT:
     RETVAL
 
-=head1 th_comment_query
+=head2 th_comment_query
 
 Look up a comment value by its tag. 
 
@@ -489,7 +489,7 @@ L<http://www.theora.org/doc/libtheora-1.0/group__decfuncs.html>
 
 =cut
 
-=head1 th_decode_headerin
+=head2 th_decode_headerin
 
 Decodes the header packets of a Theora stream. 
 
@@ -523,7 +523,7 @@ LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     XPUSHs(sv_2mortal(newSViv((unsigned int) _setup)));
 
 
-=head1 th_decode_alloc
+=head2 th_decode_alloc
 
 Allocates a decoder instance. 
 
@@ -545,7 +545,7 @@ LibTheora_th_decode_alloc(_info, _setup)
     RETVAL
     
 
-=head1 th_setup_free
+=head2 th_setup_free
 
 Releases all storage used for the decoder setup information.
 
@@ -563,7 +563,7 @@ LibTheora_th_setup_free(_setup)
     th_setup_free((th_setup_info *) _setup);
 
 
-=head1 th_decode_packetin
+=head2 th_decode_packetin
 
 Submits a packet containing encoded video data to the decoder. 
 
@@ -593,7 +593,7 @@ LibTheora_th_decode_packetin(_dec, _op, _granpos)
     XPUSHs(sv_2mortal(newSViv((unsigned int) _granpos)));
  
 
-=head1 th_decode_ycbcr_out
+=head2 th_decode_ycbcr_out
 
 Outputs the next available frame of decoded Y'CbCr data. 
 
@@ -615,7 +615,7 @@ LibTheora_th_decode_ycbcr_out(_dec, _ycbcr)
     RETVAL
 
 
-=head1 th_decode_free
+=head2 th_decode_free
 
 Frees an allocated decoder instance. 
 
@@ -633,7 +633,7 @@ LibTheora_th_decode_free(_dec)
     th_decode_free(_dec);
 
 
-=head1 th_decode_ctl
+=head2 th_decode_ctl
 
 Decoder control function. (i haven't tested this)
 
@@ -667,7 +667,7 @@ L<http://www.theora.org/doc/libtheora-1.0/group__encfuncs.html>
 =cut
 
 
-=head1 th_encode_alloc
+=head2 th_encode_alloc
 
 Allocates an encoder instance.
 
@@ -688,7 +688,7 @@ LibTheora_th_encode_alloc(_info)
     RETVAL
 
 
-=head1 th_encode_flushheader
+=head2 th_encode_flushheader
 
 -Input:
   th_enc_ctx,
@@ -712,7 +712,7 @@ LibTheora_th_encode_flushheader(_enc, _comments, _op)
     RETVAL
 
 
-=head1 th_encode_ycbcr_in
+=head2 th_encode_ycbcr_in
 
 Submits an uncompressed frame to the encoder. (if you don't have ycbcr buffer
 you can try using the *unoptimized* rgb_th_encode_ycbcr_in, better you write 
@@ -737,7 +737,7 @@ LibTheora_th_encode_ycbcr_in(_enc, _ycbcr)
   OUTPUT:
     RETVAL
 
-=head1 th_encode_packetout
+=head2 th_encode_packetout
 
 Retrieves encoded video data packets. 
 
@@ -763,7 +763,7 @@ LibTheora_th_encode_packetout(_enc, _last, _op)
     RETVAL
 
 
-=head1 th_encode_free
+=head2 th_encode_free
 
 Frees an allocated encoder instance. 
 
