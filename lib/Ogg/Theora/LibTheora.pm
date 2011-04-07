@@ -185,7 +185,7 @@ our @EXPORT = qw(
     TH_RATECTL_DROP_FRAMES
 );
 
-our $VERSION = '0.01.2';
+our $VERSION = '0.02';
 
 sub AUTOLOAD {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
@@ -220,12 +220,9 @@ Ogg::Theora::LibTheora - XS Interface for calling Theora Video Codec functions i
 =head1 DESCRIPTION
 
 Ogg::Theora::LibTheora is a glue between theora/theora.h theora/theoraenc.h and theora/theoradec.h . 
-
+Please read the XS code to understand the glue implementation.
 
 =head1 SYNOPSIS ENCODE
-
-  ## constants are exported by DEFAULT
-  use Ogg::Theora::LibTheora ':all'; # to export everything to current namespace
 
 Encoding raw RGB files to create a theora video file.
 
@@ -431,9 +428,11 @@ Decoding a theora video file to generate the raw RGB files. (here we generate on
   }
 
 
-=head2 EXPORT
+=head1 EXPORT
 
-None by default.
+Only constants are exported by DEFAULT
+
+  use Ogg::Theora::LibTheora ':all'; # to export everything to current namespace
 
 =head2 Exportable constants
 
@@ -505,7 +504,7 @@ None by default.
 L<http://www.theora.org/doc/libtheora-1.0/annotated.html>
 
 
-=head1 make_th_info
+=head2 make_th_info
 
 Creates a memory allocation for th_info.
 
@@ -516,7 +515,7 @@ Creates a memory allocation for th_info.
   Memory Pointer
 
 
-=head1 make_th_huff_code
+=head2 make_th_huff_code
 
 Creates a memory allocation for th_huff_code.
 
@@ -527,7 +526,7 @@ Creates a memory allocation for th_huff_code.
   Memory Pointer
 
 
-=head1 make_th_img_plane
+=head2 make_th_img_plane
 
 Creates a memory allocation for th_img_plane.
 
@@ -538,7 +537,7 @@ Creates a memory allocation for th_img_plane.
   Memory Pointer
 
 
-=head1 make_th_quant_info
+=head2 make_th_quant_info
 
 Creates a memory allocation for th_quant_info.
 
@@ -549,7 +548,7 @@ Creates a memory allocation for th_quant_info.
   Memory Pointer
 
 
-=head1 make_th_quant_ranges
+=head2 make_th_quant_ranges
 
 Creates a memory allocation for th_quant_ranges.
 
@@ -560,7 +559,7 @@ Creates a memory allocation for th_quant_ranges.
   Memory Pointer
 
 
-=head1 make_th_stripe_callback
+=head2 make_th_stripe_callback
 
 Creates a memory allocation for th_stripe_callback.
 
@@ -571,7 +570,7 @@ Creates a memory allocation for th_stripe_callback.
   Memory Pointer
 
 
-=head1 make_th_ycbcr_buffer
+=head2 make_th_ycbcr_buffer
 
 Creates a memory allocation for th_ycbcr_buffer.
 
@@ -582,7 +581,7 @@ Creates a memory allocation for th_ycbcr_buffer.
   Memory Pointer
 
 
-=head1 make_th_comment
+=head2 make_th_comment
 
 Creates a memory allocation for th_comment.
 
@@ -598,7 +597,7 @@ Creates a memory allocation for th_comment.
 L<http://www.theora.org/doc/libtheora-1.0/group__basefuncs.html>
 
 
-=head1 th_version_number
+=head2 th_version_number
 
 Retrieves the library version number. 
 
@@ -609,7 +608,7 @@ Retrieves the library version number.
   ogg_uint32_t (IV)
 
 
-=head1 th_version_string
+=head2 th_version_string
 
 Retrieves a human-readable string to identify the library vendor and version. 
 
@@ -620,7 +619,7 @@ Retrieves a human-readable string to identify the library vendor and version.
   const char * (T_PV)
 
 
-=head1 th_packet_isheader
+=head2 th_packet_isheader
 
 Determines whether a Theora packet is a header or not. 
 
@@ -632,7 +631,7 @@ Determines whether a Theora packet is a header or not.
   0 packet is a video data packet. 
 
 
-=head1 th_granule_frame
+=head2 th_granule_frame
 
 Converts a granule position to an absolute frame index, starting at 0. 
 
@@ -645,7 +644,7 @@ Converts a granule position to an absolute frame index, starting at 0.
   -1 on error.
 
 
-=head1 th_granule_time
+=head2 th_granule_time
 
 Converts a granule position to an absolute time in seconds. 
 
@@ -658,7 +657,7 @@ Converts a granule position to an absolute time in seconds.
   -1 on error.
 
 
-=head1 th_packet_iskeyframe
+=head2 th_packet_iskeyframe
 
 Determines whether a theora packet is a key frame or not. 
 
@@ -674,7 +673,7 @@ Determines whether a theora packet is a key frame or not.
 =head1 Functions (Manipulating Header Data)
 
 
-=head1 th_comment_init
+=head2 th_comment_init
 
 Initialize a th_comment structure. 
 
@@ -685,7 +684,7 @@ Initialize a th_comment structure.
   void
 
 
-=head1 th_info_init
+=head2 th_info_init
 
 Initializes a th_info structure. 
 
@@ -696,7 +695,7 @@ Initializes a th_info structure.
   void
 
 
-=head1 th_info_clear
+=head2 th_info_clear
 
 Clears a th_info structure. 
 
@@ -707,7 +706,7 @@ Clears a th_info structure.
   void
 
 
-=head1 th_comment_add
+=head2 th_comment_add
 
 Add a comment to an initialized th_comment structure. 
 
@@ -719,7 +718,7 @@ Add a comment to an initialized th_comment structure.
   void
 
 
-=head1 th_comment_add_tag
+=head2 th_comment_add_tag
 
 Add a comment to an initialized th_comment structure. 
 
@@ -729,7 +728,7 @@ Add a comment to an initialized th_comment structure.
   char * (corresponding value as a null-terminated string).
 
 
-=head1 th_comment_query_count
+=head2 th_comment_query_count
 
 Look up the number of instances of a tag.
 
@@ -741,7 +740,7 @@ Look up the number of instances of a tag.
   int (number on instances of this particular tag)
 
 
-=head1 th_comment_query
+=head2 th_comment_query
 
 Look up a comment value by its tag. 
 
@@ -760,7 +759,7 @@ Look up a comment value by its tag.
 L<http://www.theora.org/doc/libtheora-1.0/group__decfuncs.html>
 
 
-=head1 th_decode_headerin
+=head2 th_decode_headerin
 
 Decodes the header packets of a Theora stream. 
 
@@ -778,7 +777,7 @@ Decodes the header packets of a Theora stream.
   TH_ENOTFORMAT not a Theora header
 
 
-=head1 th_decode_alloc
+=head2 th_decode_alloc
 
 Allocates a decoder instance. 
 
@@ -790,7 +789,7 @@ Allocates a decoder instance.
   th_dec_ctx
 
 
-=head1 th_setup_free
+=head2 th_setup_free
 
 Releases all storage used for the decoder setup information.
 
@@ -801,7 +800,7 @@ Releases all storage used for the decoder setup information.
   void
 
 
-=head1 th_decode_packetin
+=head2 th_decode_packetin
 
 Submits a packet containing encoded video data to the decoder. 
 
@@ -818,7 +817,7 @@ Submits a packet containing encoded video data to the decoder.
   TH_EIMPL video data uses bitstream features which this library does not support.
 
 
-=head1 th_decode_ycbcr_out
+=head2 th_decode_ycbcr_out
 
 Outputs the next available frame of decoded Y'CbCr data. 
 
@@ -830,7 +829,7 @@ Outputs the next available frame of decoded Y'CbCr data.
   0 Success
 
 
-=head1 th_decode_free
+=head2 th_decode_free
 
 Frees an allocated decoder instance. 
 
@@ -841,7 +840,7 @@ Frees an allocated decoder instance.
   void
 
 
-=head1 th_decode_ctl
+=head2 th_decode_ctl
 
 Decoder control function. (i haven't tested this)
 
@@ -860,7 +859,7 @@ Decoder control function. (i haven't tested this)
 L<http://www.theora.org/doc/libtheora-1.0/group__encfuncs.html>
 
 
-=head1 th_encode_alloc
+=head2 th_encode_alloc
 
 Allocates an encoder instance.
 
@@ -872,7 +871,7 @@ Allocates an encoder instance.
   NULL (if the encoding parameters were invalid).
 
 
-=head1 th_encode_flushheader
+=head2 th_encode_flushheader
 
 -Input:
   th_enc_ctx,
@@ -885,7 +884,7 @@ Allocates an encoder instance.
   TH_EFAULT (_enc, _comments, or _op was NULL).
 
 
-=head1 th_encode_ycbcr_in
+=head2 th_encode_ycbcr_in
 
 Submits an uncompressed frame to the encoder. (if you don't have ycbcr buffer
 you can try using the *unoptimized* rgb_th_encode_ycbcr_in, better you write 
@@ -901,7 +900,7 @@ your own).
   TH_EINVAL buffer size does not match the frame size encoder was initialized.
 
 
-=head1 th_encode_packetout
+=head2 th_encode_packetout
 
 Retrieves encoded video data packets. 
 
@@ -916,7 +915,7 @@ Retrieves encoded video data packets.
   TH_EFAULT _enc or _op was NULL.
 
 
-=head1 th_encode_free
+=head2 th_encode_free
 
 Frees an allocated encoder instance. 
 
@@ -927,13 +926,13 @@ Frees an allocated encoder instance.
   void
 
 
-=head1 Miscellaneous Functions 
+=head2 Miscellaneous Functions 
 
 These functions are not found in libtheora*, but is written by the XS author
 to simplify few tasks.
 
 
-=head1 get_th_info
+=head2 get_th_info
 
 Returns a HashRef with th_info struct values.
 
@@ -944,7 +943,7 @@ Returns a HashRef with th_info struct values.
   HashRef
 
 
-=head1 ycbcr_to_rgb_buffer
+=head2 ycbcr_to_rgb_buffer
 
 reads the data from the ycbcr buffer and converts to its equivalent
 rgb buffer. (this is NOT an optimized code, there will be better ycbcr
@@ -958,7 +957,7 @@ the conversion)
   RGB string
 
 
-=head1 get_th_comment
+=head2 get_th_comment
 
 return an array of comments
 
@@ -969,7 +968,7 @@ return an array of comments
   array of comments
 
 
-=head1 set_th_info
+=head2 set_th_info
 
 sets the th_info structure to default values unless specified in hash. frame_width and frame_height
 is mandatory.
@@ -981,7 +980,7 @@ is mandatory.
   void
 
 
-=head1 rgb_th_encode_ycbcr_in
+=head2 rgb_th_encode_ycbcr_in
 
 Converts a rgb to ycbcr buffer. (this is not an optimized code)
 
@@ -1005,8 +1004,9 @@ and libogg @1.1.4_0 (active).
 
 =head1 SEE ALSO
 
-L<Ogg::LibOgg>
-L<http://www.theora.org/doc/libtheora-1.0/>
+Ogg::LibOgg, L<Ogg::LibOgg>
+
+Theora Documentation, L<http://www.theora.org/doc/libtheora-1.0/>
 
 =head1 AUTHOR
 
@@ -1014,7 +1014,7 @@ Vigith Maurice, E<lt>vigith@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2011 by Vigith Maurice L<www.vigith.com>
+Copyright (C) 2011 by Vigith Maurice, L<www.vigith.com> E<lt>vigith@yahoo-inc.comE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.9 or,
