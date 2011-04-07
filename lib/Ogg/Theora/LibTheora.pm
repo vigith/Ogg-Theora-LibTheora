@@ -926,7 +926,7 @@ Frees an allocated encoder instance.
   void
 
 
-=head2 Miscellaneous Functions 
+=head1 Miscellaneous Functions 
 
 These functions are not found in libtheora*, but is written by the XS author
 to simplify few tasks.
