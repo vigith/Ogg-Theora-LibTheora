@@ -788,7 +788,7 @@ to simplify few tasks.
 
 =cut
 
-=head1 get_th_info
+=head2 get_th_info
 
 Returns a HashRef with th_info struct values.
 
@@ -831,7 +831,7 @@ LibTheora_get_th_info(_info)
     RETVAL
 
 
-=head1 ycbcr_to_rgb_buffer
+=head2 ycbcr_to_rgb_buffer
 
 reads the data from the ycbcr buffer and converts to its equivalent
 rgb buffer. (this is NOT an optimized code, there will be better ycbcr
@@ -906,7 +906,7 @@ LibTheora_ycbcr_to_rgb_buffer(_ycbcr)
     RETVAL
 
 
-=head1 get_th_comment
+=head2 get_th_comment
 
 return an array of comments
 
@@ -929,7 +929,7 @@ LibTheora_get_th_comment(_tc)
     }
 
 
-=head1 set_th_info
+=head2 set_th_info
 
 sets the th_info structure to default values unless specified in hash. frame_width and frame_height
 is mandatory.
@@ -1054,7 +1054,7 @@ LibTheora_set_th_info(_info, hash)
     _info->keyframe_granule_shift = keyframe_granule_shift;
 
 
-=head1 rgb_th_encode_ycbcr_in
+=head2 rgb_th_encode_ycbcr_in
 
 Converts a rgb to ycbcr buffer. (this is not an optimized code)
 
