@@ -129,19 +129,15 @@
 .\" ========================================================================
 .\"
 .IX Title "Ogg::Theora::LibTheora 3"
-.TH Ogg::Theora::LibTheora 3 "2011-04-06" "perl v5.8.9" "User Contributed Perl Documentation"
+.TH Ogg::Theora::LibTheora 3 "2011-04-07" "perl v5.8.9" "User Contributed Perl Documentation"
 .SH "NAME"
 Ogg::Theora::LibTheora \- XS Interface for calling Theora Video Codec functions in Perl.
 .SH "DESCRIPTION"
 .IX Header "DESCRIPTION"
 Ogg::Theora::LibTheora is a glue between theora/theora.h theora/theoraenc.h and theora/theoradec.h . 
+Please read the \s-1XS\s0 code to understand the glue implementation.
 .SH "SYNOPSIS ENCODE"
 .IX Header "SYNOPSIS ENCODE"
-.Vb 2
-\&  ## constants are exported by DEFAULT
-\&  use Ogg::Theora::LibTheora ':all'; # to export everything to current namespace
-.Ve
-.PP
 Encoding raw \s-1RGB\s0 files to create a theora video file.
 .PP
 .Vb 2
@@ -428,9 +424,13 @@ Decoding a theora video file to generate the raw \s-1RGB\s0 files. (here we gene
 \&    }
 \&  }
 .Ve
-.Sh "\s-1EXPORT\s0"
-.IX Subsection "EXPORT"
-None by default.
+.SH "EXPORT"
+.IX Header "EXPORT"
+Only constants are exported by \s-1DEFAULT\s0
+.PP
+.Vb 1
+\&  use Ogg::Theora::LibTheora ':all'; # to export everything to current namespace
+.Ve
 .Sh "Exportable constants"
 .IX Subsection "Exportable constants"
 .Vb 62
@@ -500,8 +500,8 @@ None by default.
 .SH "Functions (malloc)"
 .IX Header "Functions (malloc)"
 <http://www.theora.org/doc/libtheora\-1.0/annotated.html>
-.SH "make_th_info"
-.IX Header "make_th_info"
+.Sh "make_th_info"
+.IX Subsection "make_th_info"
 Creates a memory allocation for th_info.
 .PP
 \&\-Input:
@@ -509,8 +509,8 @@ Creates a memory allocation for th_info.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_huff_code"
-.IX Header "make_th_huff_code"
+.Sh "make_th_huff_code"
+.IX Subsection "make_th_huff_code"
 Creates a memory allocation for th_huff_code.
 .PP
 \&\-Input:
@@ -518,8 +518,8 @@ Creates a memory allocation for th_huff_code.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_img_plane"
-.IX Header "make_th_img_plane"
+.Sh "make_th_img_plane"
+.IX Subsection "make_th_img_plane"
 Creates a memory allocation for th_img_plane.
 .PP
 \&\-Input:
@@ -527,8 +527,8 @@ Creates a memory allocation for th_img_plane.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_quant_info"
-.IX Header "make_th_quant_info"
+.Sh "make_th_quant_info"
+.IX Subsection "make_th_quant_info"
 Creates a memory allocation for th_quant_info.
 .PP
 \&\-Input:
@@ -536,8 +536,8 @@ Creates a memory allocation for th_quant_info.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_quant_ranges"
-.IX Header "make_th_quant_ranges"
+.Sh "make_th_quant_ranges"
+.IX Subsection "make_th_quant_ranges"
 Creates a memory allocation for th_quant_ranges.
 .PP
 \&\-Input:
@@ -545,8 +545,8 @@ Creates a memory allocation for th_quant_ranges.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_stripe_callback"
-.IX Header "make_th_stripe_callback"
+.Sh "make_th_stripe_callback"
+.IX Subsection "make_th_stripe_callback"
 Creates a memory allocation for th_stripe_callback.
 .PP
 \&\-Input:
@@ -554,8 +554,8 @@ Creates a memory allocation for th_stripe_callback.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_ycbcr_buffer"
-.IX Header "make_th_ycbcr_buffer"
+.Sh "make_th_ycbcr_buffer"
+.IX Subsection "make_th_ycbcr_buffer"
 Creates a memory allocation for th_ycbcr_buffer.
 .PP
 \&\-Input:
@@ -563,8 +563,8 @@ Creates a memory allocation for th_ycbcr_buffer.
 .PP
 \&\-Output:
   Memory Pointer
-.SH "make_th_comment"
-.IX Header "make_th_comment"
+.Sh "make_th_comment"
+.IX Subsection "make_th_comment"
 Creates a memory allocation for th_comment.
 .PP
 \&\-Input:
@@ -575,8 +575,8 @@ Creates a memory allocation for th_comment.
 .SH "Functions (Basic shared functions)"
 .IX Header "Functions (Basic shared functions)"
 <http://www.theora.org/doc/libtheora\-1.0/group_\|_basefuncs.html>
-.SH "th_version_number"
-.IX Header "th_version_number"
+.Sh "th_version_number"
+.IX Subsection "th_version_number"
 Retrieves the library version number. 
 .PP
 \&\-Input:
@@ -584,8 +584,8 @@ Retrieves the library version number.
 .PP
 \&\-Output:
   ogg_uint32_t (\s-1IV\s0)
-.SH "th_version_string"
-.IX Header "th_version_string"
+.Sh "th_version_string"
+.IX Subsection "th_version_string"
 Retrieves a human-readable string to identify the library vendor and version. 
 .PP
 \&\-Input:
@@ -593,8 +593,8 @@ Retrieves a human-readable string to identify the library vendor and version.
 .PP
 \&\-Output:
   const char * (T_PV)
-.SH "th_packet_isheader"
-.IX Header "th_packet_isheader"
+.Sh "th_packet_isheader"
+.IX Subsection "th_packet_isheader"
 Determines whether a Theora packet is a header or not. 
 .PP
 \&\-Input:
@@ -603,8 +603,8 @@ Determines whether a Theora packet is a header or not.
 \&\-Output:
   1 packet is a header packet,
   0 packet is a video data packet. 
-.SH "th_granule_frame"
-.IX Header "th_granule_frame"
+.Sh "th_granule_frame"
+.IX Subsection "th_granule_frame"
 Converts a granule position to an absolute frame index, starting at 0. 
 .PP
 \&\-Input:
@@ -614,8 +614,8 @@ Converts a granule position to an absolute frame index, starting at 0.
 \&\-Output:
   absolute frame index corresponding to _granpos,
   \-1 on error.
-.SH "th_granule_time"
-.IX Header "th_granule_time"
+.Sh "th_granule_time"
+.IX Subsection "th_granule_time"
 Converts a granule position to an absolute time in seconds. 
 .PP
 \&\-Input:
@@ -625,8 +625,8 @@ Converts a granule position to an absolute time in seconds.
 \&\-Output:
   absolute time in seconds corresponding to _granpos,
   \-1 on error.
-.SH "th_packet_iskeyframe"
-.IX Header "th_packet_iskeyframe"
+.Sh "th_packet_iskeyframe"
+.IX Subsection "th_packet_iskeyframe"
 Determines whether a theora packet is a key frame or not. 
 .PP
 \&\-Input:
@@ -638,8 +638,8 @@ Determines whether a theora packet is a key frame or not.
   \-1 packet is not a video data packet. 
 .SH "Functions (Manipulating Header Data)"
 .IX Header "Functions (Manipulating Header Data)"
-.SH "th_comment_init"
-.IX Header "th_comment_init"
+.Sh "th_comment_init"
+.IX Subsection "th_comment_init"
 Initialize a th_comment structure. 
 .PP
 \&\-Input:
@@ -647,8 +647,8 @@ Initialize a th_comment structure.
 .PP
 \&\-Output:
   void
-.SH "th_info_init"
-.IX Header "th_info_init"
+.Sh "th_info_init"
+.IX Subsection "th_info_init"
 Initializes a th_info structure. 
 .PP
 \&\-Input:
@@ -656,8 +656,8 @@ Initializes a th_info structure.
 .PP
 \&\-Output:
   void
-.SH "th_info_clear"
-.IX Header "th_info_clear"
+.Sh "th_info_clear"
+.IX Subsection "th_info_clear"
 Clears a th_info structure. 
 .PP
 \&\-Input:
@@ -665,8 +665,8 @@ Clears a th_info structure.
 .PP
 \&\-Output:
   void
-.SH "th_comment_add"
-.IX Header "th_comment_add"
+.Sh "th_comment_add"
+.IX Subsection "th_comment_add"
 Add a comment to an initialized th_comment structure. 
 .PP
 \&\-Input:
@@ -675,16 +675,16 @@ Add a comment to an initialized th_comment structure.
 .PP
 \&\-Output:
   void
-.SH "th_comment_add_tag"
-.IX Header "th_comment_add_tag"
+.Sh "th_comment_add_tag"
+.IX Subsection "th_comment_add_tag"
 Add a comment to an initialized th_comment structure. 
 .PP
 \&\-Input:
   th_comment,
   char * (null\-terminated string containing the tag associated with the comment),
   char * (corresponding value as a null-terminated string).
-.SH "th_comment_query_count"
-.IX Header "th_comment_query_count"
+.Sh "th_comment_query_count"
+.IX Subsection "th_comment_query_count"
 Look up the number of instances of a tag.
 .PP
 \&\-Input:
@@ -693,8 +693,8 @@ Look up the number of instances of a tag.
 .PP
 \&\-Output:
   int (number on instances of this particular tag)
-.SH "th_comment_query"
-.IX Header "th_comment_query"
+.Sh "th_comment_query"
+.IX Subsection "th_comment_query"
 Look up a comment value by its tag. 
 .PP
 \&\-Input:
@@ -708,8 +708,8 @@ Look up a comment value by its tag.
 .SH "Functions (For Decoding)"
 .IX Header "Functions (For Decoding)"
 <http://www.theora.org/doc/libtheora\-1.0/group_\|_decfuncs.html>
-.SH "th_decode_headerin"
-.IX Header "th_decode_headerin"
+.Sh "th_decode_headerin"
+.IX Subsection "th_decode_headerin"
 Decodes the header packets of a Theora stream. 
 .PP
 \&\-Input:
@@ -724,8 +724,8 @@ Decodes the header packets of a Theora stream.
   \s-1TH_EBADHEADER\s0 _op was \s-1NULL\s0,
   \s-1TH_EVERSION\s0 not decodable with current libtheoradec version,
   \s-1TH_ENOTFORMAT\s0 not a Theora header
-.SH "th_decode_alloc"
-.IX Header "th_decode_alloc"
+.Sh "th_decode_alloc"
+.IX Subsection "th_decode_alloc"
 Allocates a decoder instance. 
 .PP
 \&\-Input:
@@ -734,8 +734,8 @@ Allocates a decoder instance.
 .PP
 \&\-Output:
   th_dec_ctx
-.SH "th_setup_free"
-.IX Header "th_setup_free"
+.Sh "th_setup_free"
+.IX Subsection "th_setup_free"
 Releases all storage used for the decoder setup information.
 .PP
 \&\-Input:
@@ -743,8 +743,8 @@ Releases all storage used for the decoder setup information.
 .PP
 \&\-Output:
   void
-.SH "th_decode_packetin"
-.IX Header "th_decode_packetin"
+.Sh "th_decode_packetin"
+.IX Subsection "th_decode_packetin"
 Submits a packet containing encoded video data to the decoder. 
 .PP
 \&\-Input:
@@ -758,8 +758,8 @@ Submits a packet containing encoded video data to the decoder.
   \s-1TH_EFAULT\s0 _dec or _op was \s-1NULL\s0,
   \s-1TH_EBADPACKET\s0 _op does not contain encoded video data,
   \s-1TH_EIMPL\s0 video data uses bitstream features which this library does not support.
-.SH "th_decode_ycbcr_out"
-.IX Header "th_decode_ycbcr_out"
+.Sh "th_decode_ycbcr_out"
+.IX Subsection "th_decode_ycbcr_out"
 Outputs the next available frame of decoded Y'CbCr data. 
 .PP
 \&\-Input:
@@ -768,8 +768,8 @@ Outputs the next available frame of decoded Y'CbCr data.
 .PP
 \&\-Output:
   0 Success
-.SH "th_decode_free"
-.IX Header "th_decode_free"
+.Sh "th_decode_free"
+.IX Subsection "th_decode_free"
 Frees an allocated decoder instance. 
 .PP
 \&\-Input:
@@ -777,8 +777,8 @@ Frees an allocated decoder instance.
 .PP
 \&\-Output:
   void
-.SH "th_decode_ctl"
-.IX Header "th_decode_ctl"
+.Sh "th_decode_ctl"
+.IX Subsection "th_decode_ctl"
 Decoder control function. (i haven't tested this)
 .PP
 \&\-Input:
@@ -792,8 +792,8 @@ Decoder control function. (i haven't tested this)
 .SH "Functions (for Encoding)"
 .IX Header "Functions (for Encoding)"
 <http://www.theora.org/doc/libtheora\-1.0/group_\|_encfuncs.html>
-.SH "th_encode_alloc"
-.IX Header "th_encode_alloc"
+.Sh "th_encode_alloc"
+.IX Subsection "th_encode_alloc"
 Allocates an encoder instance.
 .PP
 \&\-Input:
@@ -802,8 +802,8 @@ Allocates an encoder instance.
 \&\-Output:
   th_enc_ctx handle,
   \s-1NULL\s0 (if the encoding parameters were invalid).
-.SH "th_encode_flushheader"
-.IX Header "th_encode_flushheader"
+.Sh "th_encode_flushheader"
+.IX Subsection "th_encode_flushheader"
 \&\-Input:
   th_enc_ctx,
   th_comment,
@@ -813,8 +813,8 @@ Allocates an encoder instance.
   > 1 (indicates that a header packet was successfully produced),
   0 (no packet was produced, and no more header packets remain),
   \s-1TH_EFAULT\s0 (_enc, _comments, or _op was \s-1NULL\s0).
-.SH "th_encode_ycbcr_in"
-.IX Header "th_encode_ycbcr_in"
+.Sh "th_encode_ycbcr_in"
+.IX Subsection "th_encode_ycbcr_in"
 Submits an uncompressed frame to the encoder. (if you don't have ycbcr buffer
 you can try using the *unoptimized* rgb_th_encode_ycbcr_in, better you write 
 your own).
@@ -827,8 +827,8 @@ your own).
   0 Success,
   \s-1TH_EFAULT\s0 _enc or _ycbcr is \s-1NULL\s0,
   \s-1TH_EINVAL\s0 buffer size does not match the frame size encoder was initialized.
-.SH "th_encode_packetout"
-.IX Header "th_encode_packetout"
+.Sh "th_encode_packetout"
+.IX Subsection "th_encode_packetout"
 Retrieves encoded video data packets. 
 .PP
 \&\-Input:
@@ -840,8 +840,8 @@ Retrieves encoded video data packets.
   > 0 a video data packet was successfully produced,
     0 no packet was produced, and no more encoded video data remains,
   \s-1TH_EFAULT\s0 _enc or _op was \s-1NULL\s0.
-.SH "th_encode_free"
-.IX Header "th_encode_free"
+.Sh "th_encode_free"
+.IX Subsection "th_encode_free"
 Frees an allocated encoder instance. 
 .PP
 \&\-Input:
@@ -853,8 +853,8 @@ Frees an allocated encoder instance.
 .IX Header "Miscellaneous Functions"
 These functions are not found in libtheora*, but is written by the \s-1XS\s0 author
 to simplify few tasks.
-.SH "get_th_info"
-.IX Header "get_th_info"
+.Sh "get_th_info"
+.IX Subsection "get_th_info"
 Returns a HashRef with th_info struct values.
 .PP
 \&\-Input:
@@ -862,8 +862,8 @@ Returns a HashRef with th_info struct values.
 .PP
 \&\-Output:
   HashRef
-.SH "ycbcr_to_rgb_buffer"
-.IX Header "ycbcr_to_rgb_buffer"
+.Sh "ycbcr_to_rgb_buffer"
+.IX Subsection "ycbcr_to_rgb_buffer"
 reads the data from the ycbcr buffer and converts to its equivalent
 rgb buffer. (this is \s-1NOT\s0 an optimized code, there will be better ycbcr
 to rgb convertors, some intel gpu processors have mnemonic that does
@@ -874,8 +874,8 @@ the conversion)
 .PP
 \&\-Output:
   \s-1RGB\s0 string
-.SH "get_th_comment"
-.IX Header "get_th_comment"
+.Sh "get_th_comment"
+.IX Subsection "get_th_comment"
 return an array of comments
 .PP
 \&\-Input:
@@ -883,8 +883,8 @@ return an array of comments
 .PP
 \&\-Output:
   array of comments
-.SH "set_th_info"
-.IX Header "set_th_info"
+.Sh "set_th_info"
+.IX Subsection "set_th_info"
 sets the th_info structure to default values unless specified in hash. frame_width and frame_height
 is mandatory.
 .PP
@@ -893,8 +893,8 @@ is mandatory.
 .PP
 \&\-Output:
   void
-.SH "rgb_th_encode_ycbcr_in"
-.IX Header "rgb_th_encode_ycbcr_in"
+.Sh "rgb_th_encode_ycbcr_in"
+.IX Subsection "rgb_th_encode_ycbcr_in"
 Converts a rgb to ycbcr buffer. (this is not an optimized code)
 .PP
 \&\-Input:
@@ -914,14 +914,15 @@ is pre\-1.0. In my system (Mac \s-1OS\s0 X, 10.5.8) when i wrote this module, I 
 and libogg \f(CW@1\fR.1.4_0 (active).
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
-Ogg::LibOgg
-<http://www.theora.org/doc/libtheora\-1.0/>
+Ogg::LibOgg, Ogg::LibOgg
+.PP
+Theora Documentation, <http://www.theora.org/doc/libtheora\-1.0/>
 .SH "AUTHOR"
 .IX Header "AUTHOR"
 Vigith Maurice, <vigith@cpan.org>
 .SH "COPYRIGHT AND LICENSE"
 .IX Header "COPYRIGHT AND LICENSE"
-Copyright (C) 2011 by Vigith Maurice www.vigith.com
+Copyright (C) 2011 by Vigith Maurice, www.vigith.com <vigith@yahoo\-inc.com>
 .PP
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.9 or,

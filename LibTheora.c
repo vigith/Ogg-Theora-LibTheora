@@ -200,12 +200,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_info)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 47 "LibTheora.xs"
+#line 41 "LibTheora.xs"
     th_info *memory;
 #line 206 "LibTheora.c"
 	th_info *	RETVAL;
 	dXSTARG;
-#line 49 "LibTheora.xs"
+#line 43 "LibTheora.xs"
     New(0, memory, 1, th_info);
     RETVAL = memory;
 #line 212 "LibTheora.c"
@@ -226,12 +226,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_huff_code)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 69 "LibTheora.xs"
+#line 63 "LibTheora.xs"
     th_huff_code *memory;
 #line 232 "LibTheora.c"
 	th_huff_code *	RETVAL;
 	dXSTARG;
-#line 71 "LibTheora.xs"
+#line 65 "LibTheora.xs"
     New(0, memory, 1, th_huff_code);
     RETVAL = memory;
 #line 238 "LibTheora.c"
@@ -252,12 +252,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_img_plane)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 91 "LibTheora.xs"
+#line 85 "LibTheora.xs"
     th_img_plane *memory;
 #line 258 "LibTheora.c"
 	th_img_plane *	RETVAL;
 	dXSTARG;
-#line 93 "LibTheora.xs"
+#line 87 "LibTheora.xs"
     New(0, memory, 1, th_img_plane);
     RETVAL = memory;
 #line 264 "LibTheora.c"
@@ -278,12 +278,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_quant_info)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 113 "LibTheora.xs"
+#line 107 "LibTheora.xs"
     th_quant_info *memory;
 #line 284 "LibTheora.c"
 	th_quant_info *	RETVAL;
 	dXSTARG;
-#line 115 "LibTheora.xs"
+#line 109 "LibTheora.xs"
     New(0, memory, 1, th_quant_info);
     RETVAL = memory;
 #line 290 "LibTheora.c"
@@ -304,12 +304,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_quant_ranges)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 135 "LibTheora.xs"
+#line 129 "LibTheora.xs"
     th_quant_ranges *memory;
 #line 310 "LibTheora.c"
 	th_quant_ranges *	RETVAL;
 	dXSTARG;
-#line 137 "LibTheora.xs"
+#line 131 "LibTheora.xs"
     New(0, memory, 1, th_quant_ranges);
     RETVAL = memory;
 #line 316 "LibTheora.c"
@@ -330,12 +330,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_stripe_callback)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 157 "LibTheora.xs"
+#line 151 "LibTheora.xs"
     th_stripe_callback *memory;
 #line 336 "LibTheora.c"
 	th_stripe_callback *	RETVAL;
 	dXSTARG;
-#line 159 "LibTheora.xs"
+#line 153 "LibTheora.xs"
     New(0, memory, 1, th_stripe_callback);
     RETVAL = memory;
 #line 342 "LibTheora.c"
@@ -356,12 +356,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_ycbcr_buffer)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 179 "LibTheora.xs"
+#line 173 "LibTheora.xs"
     th_ycbcr_buffer *memory;
 #line 362 "LibTheora.c"
 	th_ycbcr_buffer *	RETVAL;
 	dXSTARG;
-#line 181 "LibTheora.xs"
+#line 175 "LibTheora.xs"
     New(0, memory, 1, th_ycbcr_buffer);
     RETVAL = memory;
 #line 368 "LibTheora.c"
@@ -382,12 +382,12 @@ XS(XS_Ogg__Theora__LibTheora_make_th_comment)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 201 "LibTheora.xs"
+#line 195 "LibTheora.xs"
     th_comment *memory;
 #line 388 "LibTheora.c"
 	th_comment *	RETVAL;
 	dXSTARG;
-#line 203 "LibTheora.xs"
+#line 197 "LibTheora.xs"
     New(0, memory, 1, th_comment);
     RETVAL = memory;
 #line 394 "LibTheora.c"
@@ -408,12 +408,12 @@ XS(XS_Ogg__Theora__LibTheora_th_version_number)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 229 "LibTheora.xs"
+#line 223 "LibTheora.xs"
     ogg_uint32_t version;
 #line 414 "LibTheora.c"
 	ogg_uint32_t	RETVAL;
 	dXSTARG;
-#line 231 "LibTheora.xs"
+#line 225 "LibTheora.xs"
     version = th_version_number();
     RETVAL = version;
 #line 420 "LibTheora.c"
@@ -434,12 +434,12 @@ XS(XS_Ogg__Theora__LibTheora_th_version_string)
     if (items != 0)
        croak_xs_usage(cv,  "");
     {
-#line 251 "LibTheora.xs"
+#line 245 "LibTheora.xs"
     const char *version;
 #line 440 "LibTheora.c"
 	const char *	RETVAL;
 	dXSTARG;
-#line 253 "LibTheora.xs"
+#line 247 "LibTheora.xs"
     version = th_version_string();
     RETVAL = version;
 #line 446 "LibTheora.c"
@@ -463,7 +463,7 @@ XS(XS_Ogg__Theora__LibTheora_th_packet_isheader)
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(0)));
 	int	RETVAL;
 	dXSTARG;
-#line 275 "LibTheora.xs"
+#line 269 "LibTheora.xs"
     RETVAL = th_packet_isheader(_op);
 #line 469 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -487,7 +487,7 @@ XS(XS_Ogg__Theora__LibTheora_th_granule_frame)
 	ogg_int64_t	_granpos = (ogg_int64_t)SvNV(ST(1));
 	int	RETVAL;
 	dXSTARG;
-#line 298 "LibTheora.xs"
+#line 292 "LibTheora.xs"
     RETVAL = th_granule_frame(_encdec, _granpos);
 #line 493 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -511,7 +511,7 @@ XS(XS_Ogg__Theora__LibTheora_th_granule_time)
 	ogg_int64_t	_granpos = (ogg_int64_t)SvNV(ST(1));
 	double	RETVAL;
 	dXSTARG;
-#line 321 "LibTheora.xs"
+#line 315 "LibTheora.xs"
     RETVAL = th_granule_time(_encdec, _granpos);
 #line 517 "LibTheora.c"
 	XSprePUSH; PUSHn((double)RETVAL);
@@ -534,7 +534,7 @@ XS(XS_Ogg__Theora__LibTheora_th_packet_iskeyframe)
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(0)));
 	int	RETVAL;
 	dXSTARG;
-#line 343 "LibTheora.xs"
+#line 337 "LibTheora.xs"
     RETVAL = th_packet_iskeyframe(_op);
 #line 540 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -555,7 +555,7 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_init)
        croak_xs_usage(cv,  "_tc");
     {
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
-#line 368 "LibTheora.xs"
+#line 362 "LibTheora.xs"
     th_comment_init(_tc);
 #line 561 "LibTheora.c"
     }
@@ -575,7 +575,7 @@ XS(XS_Ogg__Theora__LibTheora_th_info_init)
        croak_xs_usage(cv,  "_info");
     {
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
-#line 386 "LibTheora.xs"
+#line 380 "LibTheora.xs"
     th_info_init(_info);
 #line 581 "LibTheora.c"
     }
@@ -595,7 +595,7 @@ XS(XS_Ogg__Theora__LibTheora_th_info_clear)
        croak_xs_usage(cv,  "_info");
     {
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
-#line 404 "LibTheora.xs"
+#line 398 "LibTheora.xs"
     th_info_clear(_info);
 #line 601 "LibTheora.c"
     }
@@ -616,7 +616,7 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_add)
     {
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
 	char *	_comment = (char *)SvPV_nolen(ST(1));
-#line 424 "LibTheora.xs"
+#line 418 "LibTheora.xs"
     int i;
     th_comment_add(_tc, _comment);
 #line 623 "LibTheora.c"
@@ -639,7 +639,7 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_add_tag)
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
 	char *	_tag = (char *)SvPV_nolen(ST(1));
 	char *	_val = (char *)SvPV_nolen(ST(2));
-#line 444 "LibTheora.xs"
+#line 438 "LibTheora.xs"
     th_comment_add_tag(_tc, _tag, _val);
 #line 645 "LibTheora.c"
     }
@@ -662,7 +662,7 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_query_count)
 	char *	_tag = (char *)SvPV_nolen(ST(1));
 	int	RETVAL;
 	dXSTARG;
-#line 463 "LibTheora.xs"
+#line 457 "LibTheora.xs"
     RETVAL = th_comment_query_count(_tc, _tag);
 #line 668 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -687,7 +687,7 @@ XS(XS_Ogg__Theora__LibTheora_th_comment_query)
 	int	_count = (int)SvIV(ST(2));
 	char *	RETVAL;
 	dXSTARG;
-#line 487 "LibTheora.xs"
+#line 481 "LibTheora.xs"
     RETVAL = th_comment_query(_tc, _tag, _count);
 #line 693 "LibTheora.c"
 	sv_setpv(TARG, RETVAL); XSprePUSH; PUSHTARG;
@@ -713,11 +713,11 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_headerin)
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(1)));
 	int	_setup_addr = (int)SvIV(ST(2));
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(3)));
-#line 523 "LibTheora.xs"
+#line 517 "LibTheora.xs"
     int status;
     th_setup_info *_setup;
 #line 720 "LibTheora.c"
-#line 526 "LibTheora.xs"
+#line 520 "LibTheora.xs"
     _setup = (th_setup_info *) _setup_addr;
     status = th_decode_headerin(_info, _tc, &_setup, _op);
     XPUSHs(sv_2mortal(newSViv(status)));
@@ -744,7 +744,7 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_alloc)
 	int	_setup = (int)SvIV(ST(1));
 	th_dec_ctx *	RETVAL;
 	dXSTARG;
-#line 549 "LibTheora.xs"
+#line 543 "LibTheora.xs"
     RETVAL = th_decode_alloc(_info, (th_setup_info *) _setup);
 #line 750 "LibTheora.c"
 	XSprePUSH; PUSHi(PTR2IV(RETVAL));
@@ -765,7 +765,7 @@ XS(XS_Ogg__Theora__LibTheora_th_setup_free)
        croak_xs_usage(cv,  "_setup");
     {
 	int	_setup = (int)SvIV(ST(0));
-#line 569 "LibTheora.xs"
+#line 563 "LibTheora.xs"
     th_setup_free((th_setup_info *) _setup);
 #line 771 "LibTheora.c"
     }
@@ -789,10 +789,10 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_packetin)
 	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(1)));
 	unsigned int	_granpos = (unsigned int)SvUV(ST(2));
-#line 595 "LibTheora.xs"
+#line 589 "LibTheora.xs"
     int status;
 #line 795 "LibTheora.c"
-#line 597 "LibTheora.xs"
+#line 591 "LibTheora.xs"
     status = th_decode_packetin(_dec, _op, (ogg_int64_t *) &_granpos);
     XPUSHs(sv_2mortal(newSViv(status)));
     XPUSHs(sv_2mortal(newSViv((unsigned int) _granpos)));
@@ -818,7 +818,7 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_ycbcr_out)
 	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(1)));
 	int	RETVAL;
 	dXSTARG;
-#line 619 "LibTheora.xs"
+#line 613 "LibTheora.xs"
     RETVAL = th_decode_ycbcr_out(_dec, *_ycbcr);
 #line 824 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -839,7 +839,7 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_free)
        croak_xs_usage(cv,  "_dec");
     {
 	th_dec_ctx *	_dec = INT2PTR(th_dec_ctx *,SvIV(ST(0)));
-#line 639 "LibTheora.xs"
+#line 633 "LibTheora.xs"
     th_decode_free(_dec);
 #line 845 "LibTheora.c"
     }
@@ -864,7 +864,7 @@ XS(XS_Ogg__Theora__LibTheora_th_decode_ctl)
 	size_t	_buf_sz = (size_t)SvUV(ST(3));
 	int	RETVAL;
 	dXSTARG;
-#line 663 "LibTheora.xs"
+#line 657 "LibTheora.xs"
     RETVAL = th_decode_ctl(_dec, _req, _buf, _buf_sz);
 #line 870 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -887,7 +887,7 @@ XS(XS_Ogg__Theora__LibTheora_th_encode_alloc)
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
 	th_enc_ctx *	RETVAL;
 	dXSTARG;
-#line 692 "LibTheora.xs"
+#line 686 "LibTheora.xs"
     RETVAL = th_encode_alloc(_info);
 #line 893 "LibTheora.c"
 	XSprePUSH; PUSHi(PTR2IV(RETVAL));
@@ -912,7 +912,7 @@ XS(XS_Ogg__Theora__LibTheora_th_encode_flushheader)
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(2)));
 	int	RETVAL;
 	dXSTARG;
-#line 716 "LibTheora.xs"
+#line 710 "LibTheora.xs"
     RETVAL = th_encode_flushheader(_enc, _comments, _op);
 #line 918 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -936,7 +936,7 @@ XS(XS_Ogg__Theora__LibTheora_th_encode_ycbcr_in)
 	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(1)));
 	int	RETVAL;
 	dXSTARG;
-#line 742 "LibTheora.xs"
+#line 736 "LibTheora.xs"
     RETVAL = th_encode_ycbcr_in(_enc, *_ycbcr);
 #line 942 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -961,7 +961,7 @@ XS(XS_Ogg__Theora__LibTheora_th_encode_packetout)
 	ogg_packet *	_op = INT2PTR(ogg_packet *,SvIV(ST(2)));
 	int	RETVAL;
 	dXSTARG;
-#line 767 "LibTheora.xs"
+#line 761 "LibTheora.xs"
     RETVAL = th_encode_packetout(_enc, _last, _op);
 #line 967 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
@@ -982,7 +982,7 @@ XS(XS_Ogg__Theora__LibTheora_th_encode_free)
        croak_xs_usage(cv,  "_enc");
     {
 	th_enc_ctx *	_enc = INT2PTR(th_enc_ctx *,SvIV(ST(0)));
-#line 787 "LibTheora.xs"
+#line 781 "LibTheora.xs"
     th_encode_free(_enc);
 #line 988 "LibTheora.c"
     }
@@ -1002,11 +1002,11 @@ XS(XS_Ogg__Theora__LibTheora_get_th_info)
        croak_xs_usage(cv,  "_info");
     {
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
-#line 812 "LibTheora.xs"
+#line 806 "LibTheora.xs"
     HV * hash;
 #line 1008 "LibTheora.c"
 	HV *	RETVAL;
-#line 814 "LibTheora.xs"
+#line 808 "LibTheora.xs"
     hash = newHV();
     sv_2mortal((SV *)hash);	/* convert the HASH to a mortal */
     hv_store(hash, "frame_width", strlen("frame_width"), newSVnv(_info->frame_width), 0);
@@ -1049,7 +1049,7 @@ XS(XS_Ogg__Theora__LibTheora_ycbcr_to_rgb_buffer)
        croak_xs_usage(cv,  "_ycbcr");
     {
 	th_ycbcr_buffer *	_ycbcr = INT2PTR(th_ycbcr_buffer *,SvIV(ST(0)));
-#line 858 "LibTheora.xs"
+#line 852 "LibTheora.xs"
     th_ycbcr_buffer buffer;
     char *rgb;
     long size, size1, size2, size3;
@@ -1059,7 +1059,7 @@ XS(XS_Ogg__Theora__LibTheora_ycbcr_to_rgb_buffer)
     int R, G, B;
 #line 1061 "LibTheora.c"
 	SV *	RETVAL;
-#line 866 "LibTheora.xs"
+#line 860 "LibTheora.xs"
     memcpy(buffer,_ycbcr, sizeof(buffer));
     size1 = buffer[0].width * buffer[0].height;
     size2 = buffer[1].width * buffer[1].height;
@@ -1127,10 +1127,10 @@ XS(XS_Ogg__Theora__LibTheora_get_th_comment)
     SP -= items;
     {
 	th_comment *	_tc = INT2PTR(th_comment *,SvIV(ST(0)));
-#line 930 "LibTheora.xs"
+#line 924 "LibTheora.xs"
     int i = 0;
 #line 1133 "LibTheora.c"
-#line 932 "LibTheora.xs"
+#line 926 "LibTheora.xs"
     EXTEND(SP, _tc->comments);
     for(i=0; i < _tc->comments; i++) {
       PUSHs((SV *)sv_2mortal(newSVpv(_tc->user_comments[i], strlen(_tc->user_comments[i]))));
@@ -1155,7 +1155,7 @@ XS(XS_Ogg__Theora__LibTheora_set_th_info)
     {
 	th_info *	_info = INT2PTR(th_info *,SvIV(ST(0)));
 	HV *	hash;
-#line 955 "LibTheora.xs"
+#line 949 "LibTheora.xs"
     char * key;
     I32 klen;
     SV *val;
@@ -1184,7 +1184,7 @@ XS(XS_Ogg__Theora__LibTheora_set_th_info)
 	    Perl_croak(aTHX_ "%s: %s is not a hash reference",
 			"Ogg::Theora::LibTheora::set_th_info",
 			"hash");
-#line 976 "LibTheora.xs"
+#line 970 "LibTheora.xs"
     /* get the values from the hash and override the defaults */
     (void)hv_iterinit(hash);
     while ((val = hv_iternextsv(hash, (char **) &key, &klen))) {
@@ -1291,7 +1291,7 @@ XS(XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in)
 	char *	rgb = (char *)SvPV_nolen(ST(1));
 	int	w = (int)SvIV(ST(2));
 	int	h = (int)SvIV(ST(3));
-#line 1084 "LibTheora.xs"
+#line 1078 "LibTheora.xs"
       int c_out;
     int size2;
     unsigned int address;
@@ -1311,10 +1311,10 @@ XS(XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in)
 #line 1312 "LibTheora.c"
 	int	RETVAL;
 	dXSTARG;
-#line 1101 "LibTheora.xs"
+#line 1095 "LibTheora.xs"
     data = rgb;
 #line 1317 "LibTheora.c"
-#line 1103 "LibTheora.xs"
+#line 1097 "LibTheora.xs"
     ycbcr[0].data = (unsigned char *) malloc(w*h);
     ycbcr[1].data = (unsigned char *) malloc(w*h/4);
     ycbcr[2].data = (unsigned char *) malloc(w*h/4);
