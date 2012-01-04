@@ -1398,7 +1398,10 @@ XS(XS_Ogg__Theora__LibTheora_rgb_th_encode_ycbcr_in)
       }		
     }
     RETVAL = th_encode_ycbcr_in(_enc, ycbcr);
-#line 1402 "LibTheora.c"
+    free(ycbcr[0].data);
+    free(ycbcr[1].data);
+    free(ycbcr[2].data);
+#line 1405 "LibTheora.c"
 	XSprePUSH; PUSHi((IV)RETVAL);
     }
     XSRETURN(1);
