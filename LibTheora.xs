@@ -1177,5 +1177,8 @@ LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
       }		
     }
     RETVAL = th_encode_ycbcr_in(_enc, ycbcr);
+    free(ycbcr[0].data);
+    free(ycbcr[1].data);
+    free(ycbcr[2].data);
   OUTPUT:
     RETVAL
