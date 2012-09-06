@@ -137,7 +137,7 @@ sub add_image {
   my $str = <IN>;
   close IN;
 
-  Ogg::Theora::LibTheora::rgb_th_encode_ycbcr_in($th_enc_ctx, $str, $w, $h) == 0 or diag ("Error th_encode_ycbcr_in");
+  Ogg::Theora::LibTheora::rgb_th_encode_ycbcr_in($th_enc_ctx, $str, $w, $h) == 0 or diag ("Error rbg_th_encode_ycbcr_in");
 
   my $n;
   do {

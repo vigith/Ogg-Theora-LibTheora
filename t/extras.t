@@ -120,5 +120,5 @@ my $h_info = Ogg::Theora::LibTheora::get_th_info($th_info);
 ok($h_info->{frame_height} == 500 && $h_info->{frame_width} == 300, 'set_th_info');
 
 ## is_header
-ok(Ogg::Theora::LibTheora::th_packet_isheader($op) == 0, "th_packet_isheader");
+ok(Ogg::Theora::LibTheora::th_packet_isheader($op) >= 0, "th_packet_isheader");
 

@@ -1075,7 +1075,7 @@ LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
     int	 		w
     int 		h
   PREINIT:
-      int c_out;
+    int c_out;
     int size2;
     unsigned int address;
     char *data;
@@ -1180,5 +1180,47 @@ LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
     free(ycbcr[0].data);
     free(ycbcr[1].data);
     free(ycbcr[2].data);
+  OUTPUT:
+    RETVAL
+
+
+=head2 get_th_ycbcr_buffer_info
+
+Retuns an arrayref of hashrefs containing width, height, stride
+and data_pointer for each plane (issue#1)
+
+-Input:
+  th_ycbcr_buffer
+
+-Output:
+  arrayref
+
+=cut
+SV *
+LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
+    th_ycbcr_buffer *	_ycbcr;
+  PREINIT:
+    AV * ycbcr_info;
+    int i = 0;
+    th_ycbcr_buffer buffer;
+  INIT:
+    HV * ycbcr;
+    ycbcr_info = (AV *)sv_2mortal((SV *)newAV()); 
+  CODE:
+    memcpy(buffer,_ycbcr, sizeof(buffer));
+    for (i=0; i<3; i++) {
+      ycbcr = (HV *)sv_2mortal((SV *)newHV());
+      hv_store(ycbcr, "height", strlen("height"), newSVnv(buffer[i].height), 0);
+      hv_store(ycbcr, "width", strlen("width"), newSVnv(buffer[i].width), 0);
+      hv_store(ycbcr, "stride", strlen("stride"), newSVnv(buffer[i].stride), 0);
+      hv_store(ycbcr, "data", strlen("data"), newSVnv((int)buffer[i].data), 0);
+
+      // ycbcr is a local variable
+      av_push(ycbcr_info, newRV((SV *)ycbcr));
+    }
+
+    /* returning a reference */
+    RETVAL = newRV((SV *)ycbcr_info);
+
   OUTPUT:
     RETVAL

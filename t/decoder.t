@@ -2,7 +2,7 @@
 use strict;
 use Ogg::LibOgg ':all';
 
-use Test::More tests => 27;
+use Test::More tests => 28;
 BEGIN { 
   use_ok('Ogg::Theora::LibTheora') 
 };
@@ -121,6 +121,10 @@ ok($gpos > 0, "granulepos");
 ok(Ogg::Theora::LibTheora::th_decode_ycbcr_out($th_dec_ctx, $th_ycbcr_buffer) == 0, "th_decode_ycbcr_out");
 
 my $rgb_buf = Ogg::Theora::LibTheora::ycbcr_to_rgb_buffer($th_ycbcr_buffer);
+
+my $info = Ogg::Theora::LibTheora::get_th_ycbcr_buffer_info($th_ycbcr_buffer);
+ok(ref($info) eq 'ARRAY', 'get_th_ycbcr_buffer_info');
+
 ## testing inside testing :-)
 open OUT, ">", "t/dec_pic1.raw" or diag( "can't open $!");
 binmode OUT;

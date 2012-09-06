@@ -994,6 +994,17 @@ Converts a rgb to ycbcr buffer. (this is not an optimized code)
   th_ycbcr_buffer
 
 
+=head2 get_th_ycbcr_buffer_info
+
+Retuns an arrayref of hashrefs containing width, height, stride
+and data_pointer for each plane (issue#1)
+
+-Input:
+  th_ycbcr_buffer
+
+-Output:
+  arrayref
+
 =head1 CAVEATS
 
 This Modules expects the Theora file to be contained in an Ogg container (which true for most of the theora videos
