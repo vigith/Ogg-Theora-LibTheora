@@ -1210,10 +1210,10 @@ LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
     memcpy(buffer,_ycbcr, sizeof(buffer));
     for (i=0; i<3; i++) {
       ycbcr = (HV *)sv_2mortal((SV *)newHV());
-      hv_store(ycbcr, "height", strlen("height"), newSVnv(buffer[i].height), 0);
-      hv_store(ycbcr, "width", strlen("width"), newSVnv(buffer[i].width), 0);
-      hv_store(ycbcr, "stride", strlen("stride"), newSVnv(buffer[i].stride), 0);
-      hv_store(ycbcr, "data", strlen("data"), newSVnv((int)buffer[i].data), 0);
+      hv_store(ycbcr, "height", strlen("height"), newSVuv(buffer[i].height), 0);
+      hv_store(ycbcr, "width", strlen("width"), newSVuv(buffer[i].width), 0);
+      hv_store(ycbcr, "stride", strlen("stride"), newSVuv(buffer[i].stride), 0);
+      hv_store(ycbcr, "data", strlen("data"), newSVuv((UV)buffer[i].data), 0);
 
       // ycbcr is a local variable
       av_push(ycbcr_info, newRV((SV *)ycbcr));
@@ -1222,5 +1222,14 @@ LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
     /* returning a reference */
     RETVAL = newRV((SV *)ycbcr_info);
 
+  OUTPUT:
+    RETVAL
+
+void *
+LibTheora_get_th_ycbcr_buffer_ptr(_ycbcr, i)
+    th_ycbcr_buffer *	_ycbcr;
+    int i;
+  CODE:
+    RETVAL = (*_ycbcr)[i].data;
   OUTPUT:
     RETVAL
