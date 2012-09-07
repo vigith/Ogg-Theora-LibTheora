@@ -115,6 +115,9 @@ our %EXPORT_TAGS = ( 'all' => [ qw
     get_th_comment
     set_th_info
     rgb_th_encode_ycbcr_in
+    get_th_ycbcr_buffer_info
+    get_th_ycbcr_buffer_data
+    get_th_ycbcr_buffer_ptr
  ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );

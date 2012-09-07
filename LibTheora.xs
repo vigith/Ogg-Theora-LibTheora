@@ -511,7 +511,7 @@ void
 LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     th_info *		_info
     th_comment *	_tc
-    int      		_setup_addr
+    IV      		_setup_addr
     ogg_packet *  	_op
   PREINIT:
     int status;
@@ -520,7 +520,7 @@ LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     _setup = (th_setup_info *) _setup_addr;
     status = th_decode_headerin(_info, _tc, &_setup, _op);
     XPUSHs(sv_2mortal(newSViv(status)));
-    XPUSHs(sv_2mortal(newSViv((unsigned int) _setup)));
+    XPUSHs(sv_2mortal(newSViv((UV) _setup)));
 
 
 =head2 th_decode_alloc
@@ -538,7 +538,7 @@ Allocates a decoder instance.
 th_dec_ctx *
 LibTheora_th_decode_alloc(_info, _setup)
     th_info *		_info
-    int	    		_setup
+    IV	    		_setup
   CODE:
     RETVAL = th_decode_alloc(_info, (th_setup_info *) _setup);
   OUTPUT:
@@ -558,7 +558,7 @@ Releases all storage used for the decoder setup information.
 =cut
 void
 LibTheora_th_setup_free(_setup)
-    int		_setup
+    IV		_setup
   CODE:
     th_setup_free((th_setup_info *) _setup);
 
@@ -1231,5 +1231,17 @@ LibTheora_get_th_ycbcr_buffer_ptr(_ycbcr, i)
     int i;
   CODE:
     RETVAL = (*_ycbcr)[i].data;
+  OUTPUT:
+    RETVAL
+
+SV *
+LibTheora_get_th_ycbcr_buffer_data(_ycbcr, i)
+    th_ycbcr_buffer *	_ycbcr;
+    int i;
+  PREINIT:
+    th_ycbcr_buffer buffer;
+  CODE:
+    memcpy(buffer, _ycbcr, sizeof(buffer));
+    RETVAL = newSVpv(buffer[i].data, buffer[i].height * buffer[i].stride);
   OUTPUT:
     RETVAL
