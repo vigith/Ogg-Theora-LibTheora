@@ -1,0 +1,3 @@
+Execute decoder.pl, this will create few raw images from the ogg theora video. these raw files can be viewed after converting to .jpg. This can be done via convert.py (requires PIL)
+
+THIS IS AN EXAMPLE CODE, MOST OF THE VALUES ARE *Hard Coded*!!
