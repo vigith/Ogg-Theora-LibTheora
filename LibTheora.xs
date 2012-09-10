@@ -1186,7 +1186,7 @@ LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
 
 =head2 get_th_ycbcr_buffer_info
 
-Retuns an arrayref of hashrefs containing width, height, stride
+Returns an arrayref of hashrefs containing width, height, stride
 and data_pointer for each plane (issue#1)
 
 -Input:
@@ -1225,6 +1225,19 @@ LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
   OUTPUT:
     RETVAL
 
+=head2 get_th_ycbcr_buffer_ptr
+
+Returns an data pointer for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  pointer
+
+=cut
+
 void *
 LibTheora_get_th_ycbcr_buffer_ptr(_ycbcr, i)
     th_ycbcr_buffer *	_ycbcr;
@@ -1233,6 +1246,19 @@ LibTheora_get_th_ycbcr_buffer_ptr(_ycbcr, i)
     RETVAL = (*_ycbcr)[i].data;
   OUTPUT:
     RETVAL
+
+=head2 get_th_ycbcr_buffer_data
+
+Returns an data for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  string
+
+=cut
 
 SV *
 LibTheora_get_th_ycbcr_buffer_data(_ycbcr, i)
