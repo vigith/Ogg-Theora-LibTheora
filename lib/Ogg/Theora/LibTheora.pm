@@ -115,6 +115,9 @@ our %EXPORT_TAGS = ( 'all' => [ qw
     get_th_comment
     set_th_info
     rgb_th_encode_ycbcr_in
+    get_th_ycbcr_buffer_info
+    get_th_ycbcr_buffer_data
+    get_th_ycbcr_buffer_ptr
  ) ] );
 
 our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
@@ -996,7 +999,7 @@ Converts a rgb to ycbcr buffer. (this is not an optimized code)
 
 =head2 get_th_ycbcr_buffer_info
 
-Retuns an arrayref of hashrefs containing width, height, stride
+Returns an arrayref of hashrefs containing width, height, stride
 and data_pointer for each plane (issue#1)
 
 -Input:
@@ -1004,6 +1007,28 @@ and data_pointer for each plane (issue#1)
 
 -Output:
   arrayref
+
+=head2 get_th_ycbcr_buffer_ptr
+
+Returns an data pointer for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  pointer
+
+=head2 get_th_ycbcr_buffer_data
+
+Returns an data for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  string - use unpack to get numbers
 
 =head1 CAVEATS
 

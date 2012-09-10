@@ -511,7 +511,7 @@ void
 LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     th_info *		_info
     th_comment *	_tc
-    int      		_setup_addr
+    IV      		_setup_addr
     ogg_packet *  	_op
   PREINIT:
     int status;
@@ -520,7 +520,7 @@ LibTheora_th_decode_headerin(_info, _tc, _setup_addr, _op)
     _setup = (th_setup_info *) _setup_addr;
     status = th_decode_headerin(_info, _tc, &_setup, _op);
     XPUSHs(sv_2mortal(newSViv(status)));
-    XPUSHs(sv_2mortal(newSViv((unsigned int) _setup)));
+    XPUSHs(sv_2mortal(newSViv((UV) _setup)));
 
 
 =head2 th_decode_alloc
@@ -538,7 +538,7 @@ Allocates a decoder instance.
 th_dec_ctx *
 LibTheora_th_decode_alloc(_info, _setup)
     th_info *		_info
-    int	    		_setup
+    IV	    		_setup
   CODE:
     RETVAL = th_decode_alloc(_info, (th_setup_info *) _setup);
   OUTPUT:
@@ -558,7 +558,7 @@ Releases all storage used for the decoder setup information.
 =cut
 void
 LibTheora_th_setup_free(_setup)
-    int		_setup
+    IV		_setup
   CODE:
     th_setup_free((th_setup_info *) _setup);
 
@@ -1186,7 +1186,7 @@ LibTheora_rgb_th_encode_ycbcr_in(_enc, rgb, w, h)
 
 =head2 get_th_ycbcr_buffer_info
 
-Retuns an arrayref of hashrefs containing width, height, stride
+Returns an arrayref of hashrefs containing width, height, stride
 and data_pointer for each plane (issue#1)
 
 -Input:
@@ -1210,10 +1210,10 @@ LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
     memcpy(buffer,_ycbcr, sizeof(buffer));
     for (i=0; i<3; i++) {
       ycbcr = (HV *)sv_2mortal((SV *)newHV());
-      hv_store(ycbcr, "height", strlen("height"), newSVnv(buffer[i].height), 0);
-      hv_store(ycbcr, "width", strlen("width"), newSVnv(buffer[i].width), 0);
-      hv_store(ycbcr, "stride", strlen("stride"), newSVnv(buffer[i].stride), 0);
-      hv_store(ycbcr, "data", strlen("data"), newSVnv((int)buffer[i].data), 0);
+      hv_store(ycbcr, "height", strlen("height"), newSVuv(buffer[i].height), 0);
+      hv_store(ycbcr, "width", strlen("width"), newSVuv(buffer[i].width), 0);
+      hv_store(ycbcr, "stride", strlen("stride"), newSVuv(buffer[i].stride), 0);
+      hv_store(ycbcr, "data", strlen("data"), newSVuv((UV)buffer[i].data), 0);
 
       // ycbcr is a local variable
       av_push(ycbcr_info, newRV((SV *)ycbcr));
@@ -1222,5 +1222,52 @@ LibTheora_get_th_ycbcr_buffer_info(_ycbcr)
     /* returning a reference */
     RETVAL = newRV((SV *)ycbcr_info);
 
+  OUTPUT:
+    RETVAL
+
+=head2 get_th_ycbcr_buffer_ptr
+
+Returns an data pointer for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  pointer
+
+=cut
+
+void *
+LibTheora_get_th_ycbcr_buffer_ptr(_ycbcr, i)
+    th_ycbcr_buffer *	_ycbcr;
+    int i;
+  CODE:
+    RETVAL = (*_ycbcr)[i].data;
+  OUTPUT:
+    RETVAL
+
+=head2 get_th_ycbcr_buffer_data
+
+Returns an data for specified plane index (0 - Y, 1 - Cb, 2 - Cr)
+
+-Input:
+  th_ycbcr_buffer
+  index
+
+-Output:
+  string
+
+=cut
+
+SV *
+LibTheora_get_th_ycbcr_buffer_data(_ycbcr, i)
+    th_ycbcr_buffer *	_ycbcr;
+    int i;
+  PREINIT:
+    th_ycbcr_buffer buffer;
+  CODE:
+    memcpy(buffer, _ycbcr, sizeof(buffer));
+    RETVAL = newSVpv(buffer[i].data, buffer[i].height * buffer[i].stride);
   OUTPUT:
     RETVAL
