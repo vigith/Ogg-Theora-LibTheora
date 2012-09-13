@@ -1,4 +1,5 @@
-#!env perl
+#!/usr/bin/env perl
+# usage: gl_player.pl path_to_file.ogg
 use strict;
 use warnings;
 use feature qw(say state switch);
@@ -23,12 +24,18 @@ gl_context(sub { # create gl context and pass drawing callback sub
         glBindTexture(GL_TEXTURE_2D, $stash->{planes}->[$_]->[2]);
         glBindBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, $stash->{planes}->[$_]->[1]);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, $stash->{info}->[$_]->{stride});
-        glTexImage2D_c(GL_TEXTURE_2D, 0, 1, $stash->{info}->[$_]->{width}, $stash->{info}->[$_]->{height}, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0);
+        glPixelStorei(GL_UNPACK_SKIP_PIXELS, $stash->{video}->{pic_x});
+        glPixelStorei(GL_UNPACK_SKIP_ROWS, $stash->{video}->{pic_y});
+        glTexImage2D_c(GL_TEXTURE_2D, 0, 1, 
+             $stash->{info}->[$_]->{width} - $stash->{video}->{pic_x}, 
+             $stash->{info}->[$_]->{height} - $stash->{video}->{pic_y}, 
+             0, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0
+        );
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glUniform1iARB($sh->Map("p$_"), $_);
     } 0..2; if (my $er = glGetError()) { say $er };
-    glScaled(4, 4 * $stash->{video}->{frame_height} / $stash->{video}->{frame_width}, 1);
+    glScaled(4, 4 * $stash->{video}->{pic_height} / $stash->{video}->{pic_width}, 1);
     glTranslatef(-0.5,-0.5,-5);
     glBegin(GL_QUADS);
     glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0, 1); glVertex3f(0, 0, 0);
@@ -45,7 +52,7 @@ say 'press <q> to quit and <w> to toggle window/fullscreen mode';
 $cond->recv; # start event loop
 
 sub ogg_stream {
-    my $fh = IO::File->new(shift || '../t/theora.ogg', 'r') || die $!;
+    my $fh = IO::File->new(shift || '../t/theora.ogg', 'r') || die $!.' - provide file name to play';
     my $draw_cb = shift;
     my $stream = {};
     ogg_sync_init(my $oy = make_ogg_sync_state());
