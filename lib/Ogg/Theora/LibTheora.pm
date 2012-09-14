@@ -188,7 +188,7 @@ our @EXPORT = qw(
     TH_RATECTL_DROP_FRAMES
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 sub AUTOLOAD {
     # This AUTOLOAD is used to 'autoload' constants from the constant()
@@ -1044,13 +1044,15 @@ Ogg::LibOgg, L<Ogg::LibOgg>
 
 Theora Documentation, L<http://www.theora.org/doc/libtheora-1.0/>
 
+You can find the code for this module and few examples at L<https://github.com/vigith/Ogg-Theora-LibTheora>
+
 =head1 AUTHOR
 
 Vigith Maurice, E<lt>vigith@cpan.orgE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
-Copyright (C) 2011 by Vigith Maurice, L<www.vigith.com> E<lt>vigith@yahoo-inc.comE<gt>
+Copyright (C) 2011,2012 by Vigith Maurice, L<www.vigith.com> E<lt>vigith@cpan.comE<gt>
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.9 or,
