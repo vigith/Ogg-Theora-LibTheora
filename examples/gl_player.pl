@@ -15,7 +15,7 @@ my $stash = ogg_stream($ARGV[0], sub { # create stream from file path and pass c
     glutMainLoopEvent();
 });
 
-gl_context(sub { # create gl context and pass drawing callback sub
+gl_context($stash, sub { # create gl context and pass drawing callback sub
     state $sh = shader();
     glEnable(GL_TEXTURE_2D);
     $sh->Enable;
@@ -24,25 +24,23 @@ gl_context(sub { # create gl context and pass drawing callback sub
         glBindTexture(GL_TEXTURE_2D, $stash->{planes}->[$_]->[2]);
         glBindBufferARB(GL_PIXEL_UNPACK_BUFFER_ARB, $stash->{planes}->[$_]->[1]);
         glPixelStorei(GL_UNPACK_ROW_LENGTH, $stash->{info}->[$_]->{stride});
-        glPixelStorei(GL_UNPACK_SKIP_PIXELS, $stash->{video}->{pic_x});
-        glPixelStorei(GL_UNPACK_SKIP_ROWS, $stash->{video}->{pic_y});
-        glTexImage2D_c(GL_TEXTURE_2D, 0, 1, 
-             $stash->{info}->[$_]->{width} - $stash->{video}->{pic_x}, 
-             $stash->{info}->[$_]->{height} - $stash->{video}->{pic_y}, 
-             0, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0
-        );
+        glTexImage2D_c(GL_TEXTURE_2D, 0, 1, $stash->{info}->[$_]->{width}, $stash->{info}->[$_]->{height}, 0, GL_LUMINANCE, GL_UNSIGNED_BYTE, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glUniform1iARB($sh->Map("p$_"), $_);
     } 0..2; if (my $er = glGetError()) { say $er };
-    glScaled(4, 4 * $stash->{video}->{pic_height} / $stash->{video}->{pic_width}, 1);
-    glTranslatef(-0.5,-0.5,-5);
-    glBegin(GL_QUADS);
-    glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0, 1); glVertex3f(0, 0, 0);
-    glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0, 0); glVertex3f(0, 1, 0);
-    glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1, 0); glVertex3f(1, 1, 0);
-    glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1, 1); glVertex3f(1, 0, 0);
-    glEnd();
+    glCallList(state $list = do {
+        glNewList(my $id = glGenLists(1), GL_COMPILE);
+            glTranslatef(-0.5,-0.5,0);
+            glBegin(GL_QUADS);
+                glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0, 1); glVertex3f(0, 0, 0);
+                glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 0, 0); glVertex3f(0, 1, 0);
+                glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1, 0); glVertex3f(1, 1, 0);
+                glMultiTexCoord2fARB(GL_TEXTURE0_ARB, 1, 1); glVertex3f(1, 0, 0);
+            glEnd();
+        glEndList();
+        $id;
+    });
     $sh->Disable;
     glDisable(GL_TEXTURE_2D)
 });
@@ -52,9 +50,9 @@ say 'press <q> to quit and <w> to toggle window/fullscreen mode';
 $cond->recv; # start event loop
 
 sub ogg_stream {
-    my $fh = IO::File->new(shift || '../t/theora.ogg', 'r') || die $!.' - provide file name to play';
-    my $draw_cb = shift;
     my $stream = {};
+    my $fh = IO::File->new(($stream->{file} = shift || '../t/theora.ogg'), 'r') || die $!.' - provide file name to play';
+    my $draw_cb = shift;
     ogg_sync_init(my $oy = make_ogg_sync_state());
     ogg_read_page($fh, $oy, my $og = make_ogg_page());
     ogg_stream_init(my $os = make_ogg_stream_state(), ogg_page_serialno($og));
@@ -103,20 +101,17 @@ sub ogg_stream {
 }
 
 sub gl_context { # opengl boiler plate
+    my $stash = shift;
     my $draw_callback = shift;
     my $c = { # window config
-        n => 'opengl glsl theora player demo', # window name
-        w => 800, # width
-        h => 600, # height
-        a => 60, # view angle
-        np => 1, # near plane
-        nf => 15, # far plane
+        n => 'playing: '.$stash->{file}, # window name
+        w => $stash->{video}->{frame_width}, # width
+        h => $stash->{video}->{frame_height}, # height
     };
-    
     glutInit();
     glutInitWindowSize($c->{w}, $c->{h});
     glutInitWindowPosition((glutGet(GLUT_SCREEN_WIDTH) - $c->{w}) / 2, (glutGet(GLUT_SCREEN_HEIGHT) - $c->{h}) / 2);
-    glutInitDisplayMode(GLUT_RGBA|GLUT_DOUBLE);
+    glutInitDisplayMode(GLUT_RGB|GLUT_DOUBLE);
     glutSetWindow(glutCreateWindow($c->{n}));
     glutSetCursor(GLUT_CURSOR_NONE);
 
@@ -124,7 +119,7 @@ sub gl_context { # opengl boiler plate
         glViewport(0,0, glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        gluPerspective($c->{a}, glutGet(GLUT_WINDOW_WIDTH)/glutGet(GLUT_WINDOW_HEIGHT), $c->{np}, $c->{nf});
+        gluOrtho2D((-0.5, 0.5) x 2);
         glMatrixMode(GL_MODELVIEW);
     });
     glutDisplayFunc(sub {
