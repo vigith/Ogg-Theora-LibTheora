@@ -1,6 +1,6 @@
 Revision history for Perl extension Ogg::Theora::LibTheora.
 
-0.03  thu sep 06 00:50:40 2011
+0.04  thu sep 06 00:50:40 2011
         - issues#1 (get_th_ycbcr_buffer_info)
 
 0.03  thu apr 07 14:59:40 2011
