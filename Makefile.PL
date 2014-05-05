@@ -15,11 +15,6 @@ WriteMakefile(
     INC               => '-I/usr/lib/include -I/opt/local/include -I/usr/lib',
 );
 
-eval { require Ogg::LibOgg };
-if ($@) {
-  die "Oops, we require Ogg::LibOgg!! $@"
-}
-
 if  (eval {require ExtUtils::Constant; 1}) {
   # If you edit these definitions to change the constants used by this module,
   # you will need to use the generated const-c.inc and const-xs.inc
